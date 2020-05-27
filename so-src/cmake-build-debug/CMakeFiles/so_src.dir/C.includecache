@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/tmp/tmp.ep1429V3UA/library.c
+library.h
+/tmp/tmp.ep1429V3UA/library.h
+stdio.h
+-
+
+/tmp/tmp.ep1429V3UA/library.h
+
