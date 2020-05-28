@@ -42,6 +42,7 @@ if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
 fi
 
 if [[ $(command -v yum 2>/dev/null) != "" ]]; then
+    yum makecache >/dev/null 2>&1 || yum makecache >/dev/null 2>&1 || yum makecache
     yum install gcc -y || yum install gcc -y || yum install gcc -y;
 fi
 
