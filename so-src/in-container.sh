@@ -35,14 +35,19 @@ APT::Compressor::bzip2::CompressArg:: "-1";
 APT::Compressor::lzma::CompressArg:: "-1";
 ' > /etc/apt/apt.conf.d/99Z_Custom
 
-apt-get update;
-# build-essential
-apt-get install libc6-dev gcc -y;
-yum install gcc -y;
+if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
+    apt-get update || apt-get update || apt-get update
+    # build-essential
+    apt-get install libc6-dev gcc -y || apt-get install libc6-dev gcc -y || apt-get install libc6-dev gcc -y
+fi
+
+if [[ $(command -v yum 2>/dev/null) != "" ]]; then
+    yum install gcc -y || yum install gcc -y || yum install gcc -y;
+fi
 
 # BUILD
-gcc -o show-taskstat-info show-taskstat-info.c;
+gcc -O2 -o show-taskstat-info show-taskstat-info.c;
 ls -la /gettaskstat.c;
 
-gcc -shared -fPIC -o libNativeLinuxInterop.so gettaskstat.c;
+gcc -O2 -shared -fPIC -o libNativeLinuxInterop.so gettaskstat.c;
 ls -la libNativeLinuxInterop.so

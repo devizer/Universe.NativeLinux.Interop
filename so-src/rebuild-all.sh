@@ -23,12 +23,11 @@ function build() {
   done
 
   docker exec -t $name bash in-container.sh
-  echo "";
   mkdir -p runtimes/$tag;
   docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
-
-  docker exec -t $name ldd --version | head -1 > runtimes/$tag/versions.log
-  docker exec -t $name ./show-taskstat-info >> runtimes/$tag/versions.log
+  docker exec -t $name ldd --version | head -1 | tee runtimes/$tag/versions.log
+  docker exec -t $name ./show-taskstat-info | tee -a runtimes/$tag/versions.log
+  echo "";
 
   # check is empty
   pushd runtimes/$tag >/dev/null
@@ -43,10 +42,6 @@ function build() {
   fi
 
   docker stop $name >/dev/null 2>&1
-
-
-
-  # docker rm -f $name
 
 }
 
