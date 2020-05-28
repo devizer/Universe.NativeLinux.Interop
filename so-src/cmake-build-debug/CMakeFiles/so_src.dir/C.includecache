@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c
+/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/gettaskstat.c
 stdio.h
 -
 stdlib.h

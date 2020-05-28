@@ -50,6 +50,11 @@ function build() {
 
 }
 
+build centos 33 linux-rhel.6
+build fedora 32 linux-rhel.6
+exit
+build centos 6 linux-rhel.6
+
 for dver in wheezy jessie stretch buster bullseye; do
   build multiarch/debian-debootstrap armel-${dver} linux-armel
   build multiarch/debian-debootstrap armhf-${dver} linux-arm
@@ -63,7 +68,6 @@ for dver in wheezy jessie stretch buster bullseye; do
   build multiarch/debian-debootstrap mips64el-${dver} linux-mips64el
 done
 
-build centos 6 linux-rhel.6
 build centos 7 linux-rhel.6
 build centos 8 linux-rhel.6
 build fedora 26

@@ -17,5 +17,9 @@
 
 void main()
 {
-    printf("sizeof (struct taskstat): %d; TASKSTATS_VERSION: %d\n", sizeof (struct taskstats), TASKSTATS_VERSION);
+    printf("sizeof(int): %d; sizeof (struct taskstat): %d; TASKSTATS_VERSION: %d; TS_COMM_LEN: %d; \n",
+                    sizeof(int),
+                    sizeof (struct taskstats),
+                    TASKSTATS_VERSION,
+                    TS_COMM_LEN, sizeof(int));
 }

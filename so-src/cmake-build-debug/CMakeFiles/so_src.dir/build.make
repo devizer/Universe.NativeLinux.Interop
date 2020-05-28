@@ -70,29 +70,29 @@ CMakeFiles/so_src.dir/library.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/so_src.dir/library.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/library.c -o CMakeFiles/so_src.dir/library.c.s
 
-CMakeFiles/so_src.dir/getdelays.c.o: CMakeFiles/so_src.dir/flags.make
-CMakeFiles/so_src.dir/getdelays.c.o: ../getdelays.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/so_src.dir/getdelays.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/so_src.dir/getdelays.c.o   -c /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c
+CMakeFiles/so_src.dir/gettaskstat.c.o: CMakeFiles/so_src.dir/flags.make
+CMakeFiles/so_src.dir/gettaskstat.c.o: ../gettaskstat.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/so_src.dir/gettaskstat.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/so_src.dir/gettaskstat.c.o   -c /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/gettaskstat.c
 
-CMakeFiles/so_src.dir/getdelays.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/so_src.dir/getdelays.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c > CMakeFiles/so_src.dir/getdelays.c.i
+CMakeFiles/so_src.dir/gettaskstat.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/so_src.dir/gettaskstat.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/gettaskstat.c > CMakeFiles/so_src.dir/gettaskstat.c.i
 
-CMakeFiles/so_src.dir/getdelays.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/so_src.dir/getdelays.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c -o CMakeFiles/so_src.dir/getdelays.c.s
+CMakeFiles/so_src.dir/gettaskstat.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/so_src.dir/gettaskstat.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/gettaskstat.c -o CMakeFiles/so_src.dir/gettaskstat.c.s
 
 # Object files for target so_src
 so_src_OBJECTS = \
 "CMakeFiles/so_src.dir/library.c.o" \
-"CMakeFiles/so_src.dir/getdelays.c.o"
+"CMakeFiles/so_src.dir/gettaskstat.c.o"
 
 # External object files for target so_src
 so_src_EXTERNAL_OBJECTS =
 
 libso_src.so: CMakeFiles/so_src.dir/library.c.o
-libso_src.so: CMakeFiles/so_src.dir/getdelays.c.o
+libso_src.so: CMakeFiles/so_src.dir/gettaskstat.c.o
 libso_src.so: CMakeFiles/so_src.dir/build.make
 libso_src.so: CMakeFiles/so_src.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C shared library libso_src.so"

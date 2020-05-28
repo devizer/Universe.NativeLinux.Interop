@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c" "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir/getdelays.c.o"
+  "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/gettaskstat.c" "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir/gettaskstat.c.o"
   "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/library.c" "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir/library.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

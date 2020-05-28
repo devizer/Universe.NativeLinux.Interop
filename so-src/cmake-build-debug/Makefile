@@ -123,32 +123,32 @@ so_src/fast:
 	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/build
 .PHONY : so_src/fast
 
-getdelays.o: getdelays.c.o
+gettaskstat.o: gettaskstat.c.o
 
-.PHONY : getdelays.o
+.PHONY : gettaskstat.o
 
 # target to build an object file
-getdelays.c.o:
-	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/getdelays.c.o
-.PHONY : getdelays.c.o
+gettaskstat.c.o:
+	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/gettaskstat.c.o
+.PHONY : gettaskstat.c.o
 
-getdelays.i: getdelays.c.i
+gettaskstat.i: gettaskstat.c.i
 
-.PHONY : getdelays.i
+.PHONY : gettaskstat.i
 
 # target to preprocess a source file
-getdelays.c.i:
-	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/getdelays.c.i
-.PHONY : getdelays.c.i
+gettaskstat.c.i:
+	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/gettaskstat.c.i
+.PHONY : gettaskstat.c.i
 
-getdelays.s: getdelays.c.s
+gettaskstat.s: gettaskstat.c.s
 
-.PHONY : getdelays.s
+.PHONY : gettaskstat.s
 
 # target to generate assembly for a file
-getdelays.c.s:
-	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/getdelays.c.s
-.PHONY : getdelays.c.s
+gettaskstat.c.s:
+	$(MAKE) -f CMakeFiles/so_src.dir/build.make CMakeFiles/so_src.dir/gettaskstat.c.s
+.PHONY : gettaskstat.c.s
 
 library.o: library.c.o
 
@@ -186,9 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... so_src"
-	@echo "... getdelays.o"
-	@echo "... getdelays.i"
-	@echo "... getdelays.s"
+	@echo "... gettaskstat.o"
+	@echo "... gettaskstat.i"
+	@echo "... gettaskstat.s"
 	@echo "... library.o"
 	@echo "... library.i"
 	@echo "... library.s"

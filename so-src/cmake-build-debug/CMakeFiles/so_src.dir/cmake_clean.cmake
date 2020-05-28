@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/so_src.dir/getdelays.c.o"
+  "CMakeFiles/so_src.dir/gettaskstat.c.o"
   "CMakeFiles/so_src.dir/library.c.o"
   "libso_src.pdb"
   "libso_src.so"
