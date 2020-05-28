@@ -28,6 +28,7 @@ steps:
 
   - script: |
       Show-System-Stat || true
+      df -h -T
     condition: succeededOrFailed()
     displayName: 'System Stat'
 
