@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,11 +6,35 @@
 
 #IncludeRegexTransform: 
 
-/tmp/tmp.ep1429V3UA/library.c
-library.h
-/tmp/tmp.ep1429V3UA/library.h
+/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c
 stdio.h
 -
-
-/tmp/tmp.ep1429V3UA/library.h
+stdlib.h
+-
+errno.h
+-
+unistd.h
+-
+poll.h
+-
+string.h
+-
+fcntl.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+sys/socket.h
+-
+signal.h
+-
+linux/genetlink.h
+-
+linux/taskstats.h
+-
+linux/cgroupstats.h
+-
+syscall.h
+-
 

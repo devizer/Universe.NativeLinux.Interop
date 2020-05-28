@@ -4,10 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/tmp/tmp.ep1429V3UA/getdelays.c" "/tmp/tmp.ep1429V3UA/cmake-build-debug/CMakeFiles/so_src.dir/getdelays.c.o"
-  "/tmp/tmp.ep1429V3UA/library.c" "/tmp/tmp.ep1429V3UA/cmake-build-debug/CMakeFiles/so_src.dir/library.c.o"
+  "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/getdelays.c" "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir/getdelays.c.o"
+  "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/library.c" "/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir/library.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_C
+  "so_src_EXPORTS"
+  )
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH

@@ -26,6 +26,7 @@
 #include <linux/genetlink.h>
 #include <linux/taskstats.h>
 #include <linux/cgroupstats.h>
+#include <syscall.h>
 
 /*
  * Generic macros for dealing with netlink sockets. Might be duplicated
@@ -46,7 +47,7 @@
 int done;
 int rcvbufsz;
 char name[100];
-int dbg;
+int dbg = 0;
 int print_delays;
 int print_io_accounting;
 int print_task_context_switch_counts;
@@ -59,9 +60,9 @@ __u64 stime, utime;
 	}
 
 /* Maximum size of response requested or message sent */
-#define MAX_MSG_SIZE	1024
+#define MAX_MSG_SIZE	4096
 /* Maximum number of cpus expected to be specified in a cpumask */
-#define MAX_CPUS	32
+#define MAX_CPUS	256
 
 struct msgtemplate {
     struct nlmsghdr n;
@@ -69,8 +70,10 @@ struct msgtemplate {
     char buf[MAX_MSG_SIZE];
 };
 
+
 char cpumask[100+6*MAX_CPUS];
 
+/*
 static void usage(void)
 {
     fprintf(stderr, "getdelays [-dilv] [-w logfile] [-r bufsize] "
@@ -81,6 +84,7 @@ static void usage(void)
     fprintf(stderr, "  -v: debug on\n");
     fprintf(stderr, "  -C: container path\n");
 }
+*/
 
 /*
  * Create a raw netlink socket and bind
@@ -190,6 +194,7 @@ static int get_family_id(int sd)
     return id;
 }
 
+/*
 static void print_delayacct(struct taskstats *t)
 {
     printf("\n\nCPU   %15s%15s%15s%15s\n"
@@ -215,7 +220,9 @@ static void print_delayacct(struct taskstats *t)
            (unsigned long long)t->freepages_count,
            (unsigned long long)t->freepages_delay_total);
 }
+*/
 
+/*
 static void task_context_switch_counts(struct taskstats *t)
 {
     printf("\n\nTask   %15s%15s\n"
@@ -223,7 +230,9 @@ static void task_context_switch_counts(struct taskstats *t)
            "voluntary", "nonvoluntary",
            (unsigned long long)t->nvcsw, (unsigned long long)t->nivcsw);
 }
+*/
 
+/*
 static void print_cgroupstats(struct cgroupstats *c)
 {
     printf("sleeping %llu, blocked %llu, running %llu, stopped %llu, "
@@ -233,8 +242,10 @@ static void print_cgroupstats(struct cgroupstats *c)
            (unsigned long long)c->nr_stopped,
            (unsigned long long)c->nr_uninterruptible);
 }
+*/
 
 
+/*
 static void print_ioacct(struct taskstats *t)
 {
     printf("%s: read=%llu, write=%llu, cancelled_write=%llu\n",
@@ -243,8 +254,24 @@ static void print_ioacct(struct taskstats *t)
            (unsigned long long)t->write_bytes,
            (unsigned long long)t->cancelled_write_bytes);
 }
+*/
 
-int main(int argc, char *argv[])
+extern int Get_Tid() {
+    pid_t tid = syscall(__NR_gettid);
+    return tid;
+}
+
+extern int32_t Get_Task_Stat_Size()
+{
+    return sizeof (struct taskstats);
+}
+
+void copy1(struct taskstats *t, void *to)
+{
+    memcpy(to, t, sizeof(struct taskstats));
+}
+
+extern int Get_Task_Stat(int argPid, int argTid, void *targetTaskStat, int targetTaskStatLength)
 {
     int c, rc, rep_len, aggr_len, len2;
     int cmd_type = TASKSTATS_CMD_ATTR_UNSPEC;
@@ -269,6 +296,7 @@ int main(int argc, char *argv[])
 
     struct msgtemplate msg;
 
+/*
     while (1) {
         c = getopt(argc, argv, "qdiw:r:m:t:p:vlC:");
         if (c < 0)
@@ -332,7 +360,21 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
     }
+*/
 
+        if (argTid) {
+            cmd_type = TASKSTATS_CMD_ATTR_TGID;
+            tid = argTid;
+        }
+        else if (argPid) {
+            cmd_type = TASKSTATS_CMD_ATTR_PID;
+            tid = argPid;
+        }
+        else {
+            // TODO: error: either argPid or argTip is expected
+        }
+
+/*
     if (write_file) {
         fd = open(logfile, O_WRONLY | O_CREAT | O_TRUNC,
                   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -341,9 +383,13 @@ int main(int argc, char *argv[])
             exit(1);
         }
     }
+*/
 
-    if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0)
+    if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0) {
+        // TODO: return error
         err(1, "error creating Netlink socket\n");
+    }
+
 
 
     mypid = getpid();
@@ -393,8 +439,10 @@ int main(int argc, char *argv[])
             goto err;
         }
     }
+
     if (!maskset && !tid && !containerset) {
-        usage();
+        // TODO: Never Goes Here
+        // usage();
         goto err;
     }
 
@@ -451,12 +499,16 @@ int main(int argc, char *argv[])
                                 break;
                             case TASKSTATS_TYPE_STATS:
                                 count++;
+                                done = 1;
+                                copy1((struct taskstats *) NLA_DATA(na), targetTaskStat);
+/*
                                 if (print_delays)
                                     print_delayacct((struct taskstats *) NLA_DATA(na));
                                 if (print_io_accounting)
                                     print_ioacct((struct taskstats *) NLA_DATA(na));
                                 if (print_task_context_switch_counts)
                                     task_context_switch_counts((struct taskstats *) NLA_DATA(na));
+*/
                                 if (fd) {
                                     if (write(fd, NLA_DATA(na), na->nla_len) < 0) {
                                         err(1,"write error\n");
@@ -477,7 +529,7 @@ int main(int argc, char *argv[])
                     break;
 
                 case CGROUPSTATS_TYPE_CGROUP_STATS:
-                    print_cgroupstats(NLA_DATA(na));
+                    // SKIP: print_cgroupstats(NLA_DATA(na));
                     break;
                 default:
                     fprintf(stderr, "Unknown nla_type %d\n",
@@ -487,8 +539,11 @@ int main(int argc, char *argv[])
             na = (struct nlattr *) (GENLMSG_DATA(&msg) + len);
         }
     } while (loop);
+
     done:
+
     if (maskset) {
+        // Never goes here
         rc = send_cmd(nl_sd, id, mypid, TASKSTATS_CMD_GET,
                       TASKSTATS_CMD_ATTR_DEREGISTER_CPUMASK,
                       &cpumask, strlen(cpumask) + 1);
@@ -496,8 +551,10 @@ int main(int argc, char *argv[])
         if (rc < 0)
             err(rc, "error sending deregister cpumask\n");
     }
+
     err:
     close(nl_sd);
+    // for log
     if (fd)
         close(fd);
     if (cfd)
