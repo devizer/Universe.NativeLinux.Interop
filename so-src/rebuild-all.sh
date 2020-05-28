@@ -29,7 +29,18 @@ function build() {
   docker exec -t $name ldd --version | head -1 > runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info >> runtimes/$tag/versions.log
   docker stop $name >/dev/null 2>&1
+
+  # check is empty
+  pushd runtimes/$tag >/dev/null
+  size=$(du . -d 0 | awk '{print $1}')
+  if [[ "$size" -lt 10 ]]; then
+    echo "Deleting runtimes/$tag SIZE is $size"
+    rm -rf runtimes/$tag
+  fi
+  popd>/dev/null
+
   # docker rm -f $name
+
 }
 
 for dver in wheezy jessie stretch buster bullseye; do
@@ -38,16 +49,18 @@ for dver in wheezy jessie stretch buster bullseye; do
   build multiarch/debian-debootstrap arm64-${dver} linux-arm64
   build multiarch/debian-debootstrap amd64-${dver} linux-x64
   build multiarch/debian-debootstrap i386-${dver} linux-x86
+  build multiarch/debian-debootstrap mipsel-${dver} linux-mipsel
+  build multiarch/debian-debootstrap mips-${dver} linux-mips
+  build multiarch/debian-debootstrap powerpc-${dver} linux-powerpc
+  build multiarch/debian-debootstrap ppc64el-${dver} linux-ppc64el
+  build multiarch/debian-debootstrap mips64el-${dver} linux-mips64el
 done
-exit
 
 build centos 6 linux-rhel.6
 build centos 7 linux-rhel.6
 build centos 8 linux-rhel.6
 build fedora 26
 build fedora 30
-
-exit;
 
 for uver in precise trusty xenial bionic focal; do
   build multiarch/ubuntu-debootstrap powerpc-${uver} linux-powerpc
