@@ -50,7 +50,7 @@ function build() {
 
 }
 
-build centos 33 linux-rhel.6
+build fedora 33 linux-rhel.6
 build fedora 32 linux-rhel.6
 exit
 build centos 6 linux-rhel.6
