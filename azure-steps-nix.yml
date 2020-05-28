@@ -36,5 +36,5 @@ steps:
     condition: succeededOrFailed()
     inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)/so-src/runtimes'
-      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
+      artifactName: 'Runtimes'
       
