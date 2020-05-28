@@ -4,6 +4,7 @@ sudo apt-get update
 sudo apt-get install qemu-user-static -y
 docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
+rm -f runtimes/missed.log
 counter=0
 function build() {
   image=$1
@@ -25,7 +26,6 @@ function build() {
   echo "";
   mkdir -p runtimes/$tag;
   docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
-  docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
 
   docker exec -t $name ldd --version | head -1 > runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info >> runtimes/$tag/versions.log
@@ -38,6 +38,7 @@ function build() {
   if [[ "$size" -lt 10 ]]; then
     echo "Deleting runtimes/$tag SIZE is $size"
     rm -rf runtimes/$tag
+    echo $tag >> runtimes/missed.log
   else
     docker cp $name:/usr/include/linux/taskstats.h runtimes/$tag/taskstats.h
   fi
