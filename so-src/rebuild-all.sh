@@ -19,7 +19,7 @@ function build() {
   echo "${counter} NAME: $name"
   docker rm -f $name >/dev/null 2>&1
   cmd="docker pull ${image}:${tag} >/dev/null 2>&1"
-  try-and-run eval "$cmd"
+  try-and-retry eval "$cmd"
   docker run -d --name $name --rm "${image}:${tag}" bash -c "while true; do sleep 999; done"
   for src in *.c in-container.sh; do
     echo COPYING $src
