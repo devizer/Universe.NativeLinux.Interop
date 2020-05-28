@@ -15,15 +15,15 @@ steps:
     displayName: 'List Packages'
 
   - script: |
-      pushd so-src
+      pushd so-src>/dev/null
       bash re-build-local.sh
-      pop
+      popd>/dev/null
     displayName: 're-build-local.sh'
 
   - script: |
-      pushd so-src
+      pushd so-src>/dev/null
       bash rebuild-all.sh
-      pop
+      popd>/dev/null
     displayName: 'rebuild-all.sh'
 
   - script: |
