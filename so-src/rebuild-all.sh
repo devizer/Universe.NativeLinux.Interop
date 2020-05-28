@@ -29,7 +29,6 @@ function build() {
 
   docker exec -t $name ldd --version | head -1 > runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info >> runtimes/$tag/versions.log
-  docker stop $name >/dev/null 2>&1
 
   # check is empty
   pushd runtimes/$tag >/dev/null
@@ -42,6 +41,9 @@ function build() {
   else
     docker cp $name:/usr/include/linux/taskstats.h runtimes/$tag/taskstats.h
   fi
+
+  docker stop $name >/dev/null 2>&1
+
 
 
   # docker rm -f $name
