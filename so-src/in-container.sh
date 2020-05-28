@@ -36,9 +36,9 @@ APT::Compressor::lzma::CompressArg:: "-1";
 ' > /etc/apt/apt.conf.d/99Z_Custom
 
 if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
-    apt-get update || apt-get update || apt-get update
+    apt-get update -qq || apt-get update -qq || apt-get update
     # build-essential
-    apt-get install libc6-dev gcc -y || apt-get install libc6-dev gcc -y || apt-get install libc6-dev gcc -y
+    apt-get install libc6-dev gcc -y -q || apt-get install libc6-dev gcc -y -q || apt-get install libc6-dev gcc -y
 fi
 
 if [[ $(command -v yum 2>/dev/null) != "" ]]; then

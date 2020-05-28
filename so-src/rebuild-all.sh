@@ -51,6 +51,8 @@ function build() {
 build centos 6 linux-rhel.6
 # latest
 build fedora 33 linux-rhel.6
+# popular
+build ubuntu bionic linux-x64
 exit;
 
 for dver in wheezy jessie stretch buster bullseye; do
