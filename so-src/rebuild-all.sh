@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
-sudo apt-get update
-sudo apt-get install qemu-user-static -y
+try-and-retry sudo apt-get update
+smart-apt-install qemu-user-static -y
+try-and-retry docker pull multiarch/qemu-user-static:register
 docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 rm -f runtimes/missed.log
@@ -45,22 +47,24 @@ function build() {
 
 }
 
-build fedora 33 linux-rhel.6
-build fedora 32 linux-rhel.6
-exit
+# ancient
 build centos 6 linux-rhel.6
+# latest
+build fedora 33 linux-rhel.6
+exit;
 
 for dver in wheezy jessie stretch buster bullseye; do
+  build multiarch/debian-debootstrap mips-${dver} linux-s390x # jessie only
   build multiarch/debian-debootstrap armel-${dver} linux-armel
   build multiarch/debian-debootstrap armhf-${dver} linux-arm
   build multiarch/debian-debootstrap arm64-${dver} linux-arm64
   build multiarch/debian-debootstrap amd64-${dver} linux-x64
   build multiarch/debian-debootstrap i386-${dver} linux-x86
-  build multiarch/debian-debootstrap mipsel-${dver} linux-mipsel
-  build multiarch/debian-debootstrap mips-${dver} linux-mips
   build multiarch/debian-debootstrap powerpc-${dver} linux-powerpc
   build multiarch/debian-debootstrap ppc64el-${dver} linux-ppc64el
   build multiarch/debian-debootstrap mips64el-${dver} linux-mips64el
+  build multiarch/debian-debootstrap mipsel-${dver} linux-mipsel
+  build multiarch/debian-debootstrap mips-${dver} linux-mips
 done
 
 build centos 7 linux-rhel.6
@@ -76,9 +80,6 @@ for uver in precise trusty xenial bionic focal; do
   build multiarch/ubuntu-debootstrap amd64-${uver} linux-x64
   build multiarch/ubuntu-debootstrap i386-${uver} linux-x86
 done
-
-
-
 
 echo 'tags: multiarch/debian-debootstrap
 

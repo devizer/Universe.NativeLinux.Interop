@@ -1,0 +1,55 @@
+# AGENT_OS=Linux|Darwin|Windows_NT
+
+steps:
+
+  - bash: |
+      sudo rm -f /usr/local/bin/Say || true
+      script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      echo "AGENT_OS: '${AGENT_OS}'"
+      dotnet --info
+    displayName: 'Install dotnet sdk 3.1 on linux/osx'
+
+  - script: |
+      time list-packages
+    condition: eq(variables['OS'], 'Linux')
+    displayName: 'List Packages'
+
+  - script: |
+      pushd so-src
+      bash re-build-local.sh
+      pop
+    displayName: 're-build-local.sh'
+
+  - script: |
+      pushd so-src
+      bash rebuild-all.sh
+      pop
+    displayName: 'rebuild-all.sh'
+
+  - script: |
+      echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
+      rem dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+      dotnet test --logger trx -f netcoreapp2.2 -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/ --collect:"XPlat Code Coverage"
+    condition: eq(variables['OS'], 'Windows')
+    displayName: 'dotnet test on Windows'
+
+  - script: |
+      rem $(testProject) 2>/dev/null || true
+      echo "Bash version: $BASH_VERSION"
+      echo "CoverletOutput=[$(Build.SourcesDirectory)/coverage/]"
+      echo "uname -s: [$(uname -s)]"
+      source FULL-TIME-REPORT.sh
+      TIME="$FULL_TIME" time dotnet test  --collect:"XPlat Code Coverage" --logger trx -f netcoreapp2.2 -c Release 
+      # /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/coverage/
+    condition: ne(variables['OS'], 'Windows')
+    displayName: 'dotnet test on Linux/OSX'
+
+  - script: |
+      Show-System-Stat || true
+    displayName: 'System Stat'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)/so-src/runtimes'
+      artifactName: '$(Agent.JobName)-$(Build.BuildNumber)'
+      
