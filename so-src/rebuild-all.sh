@@ -18,6 +18,8 @@ function build() {
   echo ""
   echo "${counter} NAME: $name"
   docker rm -f $name >/dev/null 2>&1
+  cmd="docker pull ${image}:${tag} >/dev/null 2>&1"
+  try-and-run eval "$cmd"
   docker run -d --name $name --rm "${image}:${tag}" bash -c "while true; do sleep 999; done"
   for src in *.c in-container.sh; do
     echo COPYING $src
@@ -44,6 +46,13 @@ function build() {
   fi
 
   docker stop $name >/dev/null 2>&1
+  
+  if [[ -n "$TF_BUILD" ]]; then
+    echo Deleting IMAGE ${image}:${tag}
+    sleep 1
+    cmd="docker rmi -f ${image}:${tag}"
+    try-and-retry eval "$cmd"
+  fi
 
 }
 
