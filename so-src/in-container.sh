@@ -36,7 +36,8 @@ APT::Compressor::lzma::CompressArg:: "-1";
 ' > /etc/apt/apt.conf.d/99Z_Custom
 
 apt-get update;
-apt-get install build-essential libc6-dev gcc -y;
+# build-essential
+apt-get install libc6-dev gcc -y;
 yum install gcc -y;
 
 # BUILD
