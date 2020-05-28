@@ -9,7 +9,7 @@ jobs:
     timeoutInMinutes: 599
     cancelTimeoutInMinutes: 10
     pool:
-      name: 'ubuntu-18.04'
+      image: 'ubuntu-18.04'
     steps:
       - template: azure-steps-nix.yml
 
