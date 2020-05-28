@@ -16,16 +16,17 @@ function build() {
   echo "${counter} NAME: $name"
   docker rm -f $name >/dev/null 2>&1
   docker run -d --name $name --rm "${image}:${tag}" bash -c "while true; do sleep 999; done"
-  for src in *.c; do
+  for src in *.c in-container.sh; do
     echo COPYING $src
     docker cp "$src" "$name:/$src"
   done
-  docker cp in-container.sh "$name:/in-container.sh"
 
   docker exec -t $name bash in-container.sh
   echo "";
   mkdir -p runtimes/$tag;
   docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
+  docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
+
   docker exec -t $name ldd --version | head -1 > runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info >> runtimes/$tag/versions.log
   docker stop $name >/dev/null 2>&1
@@ -33,11 +34,14 @@ function build() {
   # check is empty
   pushd runtimes/$tag >/dev/null
   size=$(du . -d 0 | awk '{print $1}')
+  popd>/dev/null
   if [[ "$size" -lt 10 ]]; then
     echo "Deleting runtimes/$tag SIZE is $size"
     rm -rf runtimes/$tag
+  else
+    docker cp $name:/usr/include/linux/taskstats.h runtimes/$tag/taskstats.h
   fi
-  popd>/dev/null
+
 
   # docker rm -f $name
 
