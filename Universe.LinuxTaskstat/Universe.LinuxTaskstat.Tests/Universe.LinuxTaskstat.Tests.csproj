@@ -17,4 +17,10 @@
       <ProjectReference Include="..\Universe.LinuxTaskstat\Universe.LinuxTaskstat.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\..\runtimes\linux-x64\libNativeLinuxInterop.so">
+        <Link>libNativeLinuxInterop.so</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>
