@@ -25,7 +25,13 @@ namespace Universe.LinuxTaskstat
             byte* taskStat = stackalloc byte[size];
 
             int isOk = Interop.get_taskstat(pid, tid, (IntPtr) taskStat, size, 0);
-            if (isOk != 0) return null;
+            if (isOk != 0)
+            {
+#if DEBUG && NETCOREAPP
+                Console.WriteLine($"Warning. get_taskstat returned error {isOk}");
+#endif
+                return null;
+            }
 
             LinuxTaskStat ret = new LinuxTaskStat()
             {

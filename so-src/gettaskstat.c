@@ -54,7 +54,7 @@ int print_task_context_switch_counts;
 __u64 stime, utime;
 
 #define PRINTF(fmt, arg...) {			\
-	    if (dbg || 1) {				\
+	    if (dbg || debug) {				\
 		printf(fmt, ##arg);		\
 	    }					\
 	}
@@ -309,6 +309,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     int cfd = 0;
 
     struct msgtemplate msg;
+    int returnError = 0;
 
 /*
     while (1) {
@@ -386,6 +387,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
         }
         else {
             // TODO: error: either argPid or argTip is expected
+            returnError = 1; goto done;
         }
 
 /*
@@ -401,7 +403,9 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
 
     if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0) {
         // TODO: return error
-        err(1, "error creating Netlink socket\n");
+        // err(1, "Error creating Netlink socket\n");
+        if (debug) fprintf(stderr, "Error creating Netlink Socket (create_nl_socket)\n");
+        returnError = 2; goto done;
     }
 
 
@@ -409,7 +413,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     mypid = getpid();
     id = get_family_id(nl_sd);
     if (!id) {
-        fprintf(stderr, "Error getting family id, errno %d\n", errno);
+        if (debug) fprintf(stderr, "Error getting family id, errno %d\n", errno);
+        returnError = 2;
         goto err;
     }
     PRINTF("family id %d\n", id);
@@ -426,7 +431,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     }
 
     if (tid && containerset) {
-        fprintf(stderr, "Select either -t or -C, not both\n");
+        // never goes here
+        if (debug) fprintf(stderr, "Select either -t or -C, not both\n");
         goto err;
     }
 
@@ -435,7 +441,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
                       cmd_type, &tid, sizeof(__u32));
         PRINTF("Sent pid/tgid, retval %d\n", rc);
         if (rc < 0) {
-            fprintf(stderr, "error sending tid/tgid cmd\n");
+            if (debug) fprintf(stderr, "error sending tid/tgid cmd\n");
+            returnError = 3;
             goto done;
         }
     }
@@ -443,13 +450,15 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     if (containerset) {
         cfd = open(containerpath, O_RDONLY);
         if (cfd < 0) {
-            perror("error opening container file");
+            if (debug) perror("error opening container file");
+            returnError=4;
             goto err;
         }
         rc = send_cmd(nl_sd, id, mypid, CGROUPSTATS_CMD_GET,
                       CGROUPSTATS_CMD_ATTR_FD, &cfd, sizeof(__u32));
         if (rc < 0) {
-            perror("error sending cgroupstats command");
+            if (debug) perror("error sending cgroupstats command");
+            returnError=5;
             goto err;
         }
     }
@@ -457,6 +466,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     if (!maskset && !tid && !containerset) {
         // TODO: Never Goes Here
         // usage();
+        returnError=6;
         goto err;
     }
 
@@ -467,15 +477,14 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
         PRINTF("received %d bytes\n", rep_len);
 
         if (rep_len < 0) {
-            fprintf(stderr, "nonfatal reply error: errno %d\n",
-                    errno);
+            if (debug) fprintf(stderr, "nonfatal reply error: errno %d, still waiting for reply\n", errno);
             continue;
         }
         if (msg.n.nlmsg_type == NLMSG_ERROR ||
             !NLMSG_OK((&msg.n), rep_len)) {
             struct nlmsgerr *err = NLMSG_DATA(&msg);
-            fprintf(stderr, "fatal reply error,  errno %d\n",
-                    err->error);
+            if (debug) fprintf(stderr, "Fatal Reply Error. NLMSG_ERROR Recieved. errno %d\n", err->error);
+            returnError=7;
             goto done;
         }
 
@@ -503,12 +512,12 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
                         switch (na->nla_type) {
                             case TASKSTATS_TYPE_PID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays)
+                                if (print_delays && debug)
                                     printf("PID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_TGID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays)
+                                if (print_delays && debug)
                                     printf("TGID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_STATS:
@@ -533,7 +542,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
                                     goto done;
                                 break;
                             default:
-                                fprintf(stderr, "Unknown nested"
+                                if (debug) fprintf(stderr, "Warning! Unknown nested"
                                                 " nla_type %d\n",
                                         na->nla_type);
                                 break;
@@ -562,7 +571,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
         rc = send_cmd(nl_sd, id, mypid, TASKSTATS_CMD_GET,
                       TASKSTATS_CMD_ATTR_DEREGISTER_CPUMASK,
                       &cpumask, strlen(cpumask) + 1);
-        printf("Sent deregister mask, retval %d\n", rc);
+
+        if (debug) printf("Sent deregister mask, retval %d\n", rc);
         if (rc < 0)
             err(rc, "error sending deregister cpumask\n");
     }
@@ -574,15 +584,16 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
         close(fd);
     if (cfd)
         close(cfd);
-    return 0;
+
+    return returnError;
 }
 
 
 extern __s64 get_taskstat_version()
 {
     // size that exceeds any version
-    struct taskstats *t = malloc(2048);
-    int isOk = get_taskstat(getpid(), 0, (void*)t, 2048, 0);
+    struct taskstats *t = malloc(1024);
+    int isOk = get_taskstat(getpid(), 0, (void*)t, 1024, 0);
     int32_t ret = 0;
     if (isOk == 0) {
         ret = t->version;

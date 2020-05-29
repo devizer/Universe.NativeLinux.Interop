@@ -34,6 +34,7 @@ namespace Universe.LinuxTaskstat.Tests
             Console.WriteLine($"VER: {stat.Value.Version}");
         }
 
+        [Test]
         public void Show_Taskstat_PerThread()
         {
             var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
