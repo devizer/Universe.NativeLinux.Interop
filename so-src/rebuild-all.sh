@@ -9,7 +9,8 @@ docker run --rm --privileged multiarch/qemu-user-static:register --reset
 rm -f runtimes/missed.log
 counter=0
 
-set -e
+# set -e
+# nuget build will fail later in case of error
 
 function build() {
   image=$1
