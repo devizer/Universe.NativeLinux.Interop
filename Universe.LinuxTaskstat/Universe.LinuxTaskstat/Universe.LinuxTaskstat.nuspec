@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>Universe.LinuxTaskstat</id>
-        <version>0.42.0-pre2</version>
+        <version>0.42.0-pre3</version>
         <title>Universe.LinuxTaskstat</title>
         <authors>Volodymyr Hoida</authors>
         <owners>Volodymyr Hoida</owners>
@@ -24,7 +24,9 @@
     </metadata>
     <files>
         <file src="netstandard2.0/Universe.LinuxTaskstat.dll" target="ref/netstandard2.0" />
-        <file src="netstandard2.0/Universe.LinuxTaskstat.dll" target="lib/netstandard2.0" />
+        
+        <!--it blocks native--> 
+        <!--<file src="netstandard2.0/Universe.LinuxTaskstat.dll" target="lib/netstandard2.0" />-->
 
         <file src="../../../../runtimes/linux-x64/native/libNativeLinuxInterop.so" target="runtimes/linux-x64/native" />
         <file src="netstandard2.0/Universe.LinuxTaskstat.dll" target="runtimes/linux-x64/lib/netstandard2.0" />

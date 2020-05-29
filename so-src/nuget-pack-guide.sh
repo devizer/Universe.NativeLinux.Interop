@@ -1,1 +1,2 @@
-https://stackoverflow.com/questions/52397501/nuget-references-to-assemblies-in-runtimes-folder-not-added
+#!/usr/bin/env bash
+# https://stackoverflow.com/questions/52397501/nuget-references-to-assemblies-in-runtimes-folder-not-added
