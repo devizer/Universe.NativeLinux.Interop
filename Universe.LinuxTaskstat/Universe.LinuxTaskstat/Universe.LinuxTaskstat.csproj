@@ -29,6 +29,7 @@
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <OutputType>Library</OutputType>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -48,7 +49,7 @@ In comparision to Universe.CpuUsage package it targets linux only. Targets every
     </PropertyGroup>
 
     <PropertyGroup>
-      <NoWarn>1701;1702;CS0162;CS0414</NoWarn>
+      <NoWarn>1701;1702;CS0162;CS0414;CS1591;NU5048</NoWarn>
     </PropertyGroup>
 
 

@@ -404,7 +404,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0) {
         // TODO: return error
         // err(1, "Error creating Netlink socket\n");
-        if (debug) fprintf(stderr, "Error creating Netlink Socket (create_nl_socket)\n");
+        if (debug) fprintf(stderr, "Error creating Netlink Socket 'create_nl_socket(NETLINK_GENERIC)'\n");
         returnError = 2; goto done;
     }
 
@@ -413,8 +413,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     mypid = getpid();
     id = get_family_id(nl_sd);
     if (!id) {
-        if (debug) fprintf(stderr, "Error getting family id, errno %d\n", errno);
-        returnError = 2;
+        if (debug) fprintf(stderr, "Error getting family id 'get_family_id(nl_sd)', errno %d\n", errno);
+        returnError = 3;
         goto err;
     }
     PRINTF("family id %d\n", id);
@@ -441,8 +441,8 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
                       cmd_type, &tid, sizeof(__u32));
         PRINTF("Sent pid/tgid, retval %d\n", rc);
         if (rc < 0) {
-            if (debug) fprintf(stderr, "error sending tid/tgid cmd\n");
-            returnError = 3;
+            if (debug) fprintf(stderr, "Error sending tid/tgid cmd 'send_cmd(...)'\n");
+            returnError = 4;
             goto done;
         }
     }
@@ -450,15 +450,15 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     if (containerset) {
         cfd = open(containerpath, O_RDONLY);
         if (cfd < 0) {
-            if (debug) perror("error opening container file");
-            returnError=4;
+            if (debug) perror("Error opening container file");
+            returnError=5;
             goto err;
         }
         rc = send_cmd(nl_sd, id, mypid, CGROUPSTATS_CMD_GET,
                       CGROUPSTATS_CMD_ATTR_FD, &cfd, sizeof(__u32));
         if (rc < 0) {
-            if (debug) perror("error sending cgroupstats command");
-            returnError=5;
+            if (debug) perror("Error sending cgroupstats command");
+            returnError=6;
             goto err;
         }
     }
@@ -466,7 +466,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
     if (!maskset && !tid && !containerset) {
         // TODO: Never Goes Here
         // usage();
-        returnError=6;
+        returnError=7;
         goto err;
     }
 
@@ -484,7 +484,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
             !NLMSG_OK((&msg.n), rep_len)) {
             struct nlmsgerr *err = NLMSG_DATA(&msg);
             if (debug) fprintf(stderr, "Fatal Reply Error. NLMSG_ERROR Recieved. errno %d\n", err->error);
-            returnError=7;
+            returnError=8;
             goto done;
         }
 

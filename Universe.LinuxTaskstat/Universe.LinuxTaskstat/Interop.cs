@@ -15,10 +15,49 @@ namespace Universe.LinuxTaskstat
         [DllImport(LibName)]
         public static extern int get_pid();
 
-        // Depends on kernel version
         [DllImport(LibName)]
         public static extern long get_taskstat_version();
         
+        /// <summary>
+        /// gets taskstat structure. caller should provide enough buffer depending on taskstat version. 
+        /// </summary>
+        /// <returns>
+        /// <list type="bullet">
+        /// <listheader>
+        /// <term>0</term>
+        /// <description>OK</description>
+        /// </listheader>
+        /// <item>
+        /// <term>1</term>
+        /// <description>either pid or tid arguments expected</description>
+        /// </item>
+        /// <item>
+        /// <term>2</term>
+        /// <description>Error creating Netlink Socket (create_nl_socket)</description>
+        /// </item>
+        /// <item>
+        /// <term>3</term>
+        /// <description>Error getting family id 'get_family_id(nl_sd)'</description>
+        /// </item>
+        /// <item>
+        /// <term>4</term>
+        /// <description>Error sending tid/tgid cmd 'send_cmd(...)'</description>
+        /// </item>
+        /// <item>
+        /// <term>8</term>
+        /// <description>Fatal Reply Error. NLMSG_ERROR Recieved.</description>
+        /// </item>
+        /// <item>
+        /// <term></term>
+        /// <description></description>
+        /// </item>
+        /// <item>
+        /// <term></term>
+        /// <description></description>
+        /// </item>
+        /// </list>
+        /// </returns>
+        // 
         [DllImport(LibName)]
         public static extern int get_taskstat(int pid, int tid, IntPtr taskStat, int taskStatSize, int debug);
 
