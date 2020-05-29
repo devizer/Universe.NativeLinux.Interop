@@ -20,9 +20,10 @@ namespace Universe.LinuxTaskstat.Tests
             Console.WriteLine($"LinuxTaskStatReader.IsGetTaskStatByThreadSupported: {LinuxTaskStatReader.IsGetTaskStatByThreadSupported}");
         }
 
+        [Test]
         public void Show_Taskstat_Version()
         {
-            Console.WriteLine($"Version: {Interop.get_taskstat_version()}");
+            Console.WriteLine($"Version: {Interop.get_taskstat_version():X16}");
         }
     }
 }

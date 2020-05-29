@@ -578,17 +578,16 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
 }
 
 
-extern __s32 get_taskstat_version()
+extern __s64 get_taskstat_version()
 {
     // size that exceeds any version
     struct taskstats *t = malloc(2048);
     int isOk = get_taskstat(getpid(), 0, (void*)t, 2048, 0);
+    int32_t ret = 0;
     if (isOk == 0) {
-        int32_t ret = t->version;
-        free(t);
-        return ret;
-    } else {
-        free(t);
-        return -isOk;
+        ret = t->version;
     }
+
+    free(t);
+    return (((__u64)isOk) << 32) | ret;
 }
