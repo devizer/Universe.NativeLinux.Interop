@@ -58,7 +58,9 @@ steps:
       source build-nuget.sh
       cp -f $nupkg_full_name $to/
       Say "Publishing [$nupkg_full_name]"
-      try-and-retry nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package
+      cmd="nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package"
+      echo $cmd
+      try-and-retry eval "$cmd"
       
       # release
       export NUPKG_PACKAGE_SUFFIX=""
