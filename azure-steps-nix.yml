@@ -75,3 +75,9 @@ steps:
       pathtoPublish: '$(Build.Repository.LocalPath)'
       artifactName: 'Working'
       
+  - task: PublishBuildArtifacts@1
+    condition: succeededOrFailed()
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)/**/*.nupkg'
+      artifactName: 'Package'
+      
