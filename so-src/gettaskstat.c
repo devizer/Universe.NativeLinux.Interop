@@ -244,7 +244,6 @@ static void print_cgroupstats(struct cgroupstats *c)
 }
 */
 
-
 /*
 static void print_ioacct(struct taskstats *t)
 {
@@ -256,13 +255,18 @@ static void print_ioacct(struct taskstats *t)
 }
 */
 
-extern int get_tid() {
+extern __u32 get_tid() {
     pid_t tid = syscall(__NR_gettid);
     return tid;
 }
 
+extern __u32 get_pid() {
+    pid_t pid = getpid();
+    return pid;
+}
+
 // Get_Task_Stat_Size_By_Version
-int get_ts_size_bv(__u16 version)
+__u32 get_ts_size_bv(__u16 version)
 {
     if (version > 10) return 352; // future version size should not ne less then prev
     if (version == 10) return 352;
@@ -279,7 +283,8 @@ void smart_copy_taskstat(struct taskstats *t, void *to)
     memcpy(to, t, get_ts_size_bv(t->version));
 }
 
-extern int get_taskstat(int argPid, int argTid, void *targetTaskStat, int targetTaskStatLength, int debug)
+// pid and tid are 32 bit integers on both 32-bit and 64-bit OS
+extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 targetTaskStatLength, __s32 debug)
 {
     if (debug) dbg = 1;
     int c, rc, rep_len, aggr_len, len2;
@@ -573,12 +578,17 @@ extern int get_taskstat(int argPid, int argTid, void *targetTaskStat, int target
 }
 
 
-extern int32_t get_taskstat_version()
+extern __s32 get_taskstat_version()
 {
-    // size exceeds any version
+    // size that exceeds any version
     struct taskstats *t = malloc(2048);
-    get_taskstat(getpid(), 0, (void*)t, 2048, 0);
-    int32_t ret = t->version;
-    free(t);
-    return ret;
+    int isOk = get_taskstat(getpid(), 0, (void*)t, 2048, 0);
+    if (isOk == 0) {
+        int32_t ret = t->version;
+        free(t);
+        return ret;
+    } else {
+        free(t);
+        return -isOk;
+    }
 }

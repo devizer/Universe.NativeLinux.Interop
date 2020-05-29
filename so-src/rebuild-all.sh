@@ -56,6 +56,11 @@ function build() {
 
 }
 
+
+build fedora 27 linux
+build fedora 28 linux
+build fedora 29 linux
+
 # ancient
 build centos 6 linux-rhel.6
 # latest
