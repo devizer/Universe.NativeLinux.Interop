@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -g  -shared -Wl,-soname,libso_src.so -o libso_src.so CMakeFiles/so_src.dir/library.c.o CMakeFiles/so_src.dir/gettaskstat.c.o 

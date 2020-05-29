@@ -1,3 +1,0 @@
-/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/user/CLionProjects/Universe.NativeLinux.Interop/so-src/cmake-build-debug/CMakeFiles/so_src.dir
