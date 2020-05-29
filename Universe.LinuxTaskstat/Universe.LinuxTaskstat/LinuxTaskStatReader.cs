@@ -26,8 +26,13 @@ namespace Universe.LinuxTaskstat
 
             int isOk = Interop.get_taskstat(pid, tid, (IntPtr) taskStat, size, 0);
             if (isOk != 0) return null;
-            
-            throw new NotImplementedException();
+
+            LinuxTaskStat ret = new LinuxTaskStat()
+            {
+                Version = ((short*) taskStat)[0],
+            };
+
+            return ret;
         }
 
     }

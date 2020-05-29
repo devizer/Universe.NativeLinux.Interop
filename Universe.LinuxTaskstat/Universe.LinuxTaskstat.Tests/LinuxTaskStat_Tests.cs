@@ -25,5 +25,21 @@ namespace Universe.LinuxTaskstat.Tests
         {
             Console.WriteLine($"Version: {Interop.get_taskstat_version():X16}");
         }
+        
+        [Test]
+        public void Show_Taskstat_PerProcess()
+        {
+            var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
+            Console.WriteLine($"HAS VALUE: {stat.HasValue}");
+            Console.WriteLine($"VER: {stat.Value.Version}");
+        }
+
+        public void Show_Taskstat_PerThread()
+        {
+            var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
+            Console.WriteLine($"HAS VALUE: {stat.HasValue}");
+            Console.WriteLine($"VER: {stat.Value.Version}");
+        }
+
     }
 }
