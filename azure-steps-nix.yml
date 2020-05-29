@@ -34,7 +34,7 @@ steps:
     displayName: 'rebuild-all.sh: libNativeLinuxInterop.so'
 
   - script: |
-      rm -rf runtimes || true 
+      rm -rf ./runtimes || true 
       pushd so-src>/dev/null
       bash deploy-to-runtimes.sh
       popd>/dev/null
