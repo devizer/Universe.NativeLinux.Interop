@@ -38,7 +38,7 @@ function build() {
   docker exec -t $name ./show-taskstat-info | tee -a runtimes/$tag/versions.log
   echo "ldd libNativeLinuxInterop.so:" | tee -a runtimes/$tag/versions.log
   docker exec -t $name ldd libNativeLinuxInterop.so | tee -a runtimes/$tag/versions.log
-  cmd='echo "Machine: $(uname -m); echo "Processor: $(uname -p)"'
+  cmd='echo "Machine: $(uname -m)"; echo "Processor: $(uname -p)"'
   docker exec -t $name sh -c "$cmd" | tee -a runtimes/$tag/versions.log
   
   echo "";
