@@ -50,19 +50,19 @@ steps:
 
   - script: |
       set -e
-      to=$(pwd)/packages
+      to=$(pwd)/packages; mkdir -p $to
       pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
       
       # pre prelease
       export NUPKG_PACKAGE_SUFFIX="-pre"
       source build-nuget.sh
-      cp -f $nupkg_full_name $to
+      cp -f $nupkg_full_name $to/
       nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package
       
       # release
       export NUPKG_PACKAGE_SUFFIX=""
       source build-nuget.sh
-      cp -f $nupkg_full_name $to
+      cp -f $nupkg_full_name $to/
       
       popd>/dev/null
     condition: succeededOrFailed()
@@ -93,6 +93,6 @@ steps:
   - task: PublishBuildArtifacts@1
     condition: succeededOrFailed()
     inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)/packages'
+      pathtoPublish: '$(Build.Repository.LocalPath)/packages/*'
       artifactName: 'Packages'
       
