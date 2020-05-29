@@ -46,7 +46,7 @@ steps:
       # dotnet test -f netcoreapp3.1 -c Debug
       bash test-as-root.sh
       popd>/dev/null
-    displayName: 'dotnet test'
+    displayName: 'dotnet test as root'
 
   - script: |
       set -e
