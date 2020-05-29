@@ -50,11 +50,22 @@ steps:
 
   - script: |
       set -e
+      to=$(pwd)/packages
       pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
-      bash build-nuget.sh
+      
+      # pre prelease
+      export NUPKG_PACKAGE_SUFFIX="-pre"
+      source build-nuget.sh
+      cp -f $nupkg_full_name $to
+      
+      # release
+      export NUPKG_PACKAGE_SUFFIX=""
+      source build-nuget.sh
+      cp -f $nupkg_full_name $to
+      
       popd>/dev/null
     condition: succeededOrFailed()
-    displayName: 'build nuget'
+    displayName: 'build 2 nugets'
 
 
   - script: |

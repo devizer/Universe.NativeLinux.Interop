@@ -2,6 +2,7 @@
 pushd ../../version
 source build-version.sh;
 popd
+export Version="${Version}${NUPKG_PACKAGE_SUFFIX}"
 Say "VERSION to build: [$Version]. Building"
 
 rm -rf bin/Release || true
@@ -14,5 +15,9 @@ pushd bin/Release
 7z a -sdel nupkgs-prev-packed.7z *nupkg || true
 Say "VERSION to build: [$Version]. Nu-Packaging"
 nuget pack Universe.LinuxTaskstat.nuspec -Version "$Version"
+
+nupkg_full_name="$(pwd)/$(ls *.nupkg | head -1)"
+Say "Full Path: [$nupkg_full_name]"
+
 popd
 
