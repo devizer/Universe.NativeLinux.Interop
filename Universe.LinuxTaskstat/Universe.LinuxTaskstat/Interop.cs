@@ -17,7 +17,7 @@ namespace Universe.LinuxTaskstat
 
         // Depends on kernel version
         [DllImport(LibName)]
-        public static extern int get_taskstat_version();
+        public static extern long get_taskstat_version();
         
         [DllImport(LibName)]
         public static extern int get_taskstat(int pid, int tid, IntPtr taskStat, int taskStatSize, int debug);

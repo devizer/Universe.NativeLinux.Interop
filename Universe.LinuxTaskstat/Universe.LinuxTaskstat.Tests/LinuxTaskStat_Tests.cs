@@ -21,7 +21,7 @@ namespace Universe.LinuxTaskstat.Tests
         }
 
         [Test]
-        public void Show_Taskstat_Version()
+        public void Show_Taskstat_Version_Raw()
         {
             Console.WriteLine($"Version: {Interop.get_taskstat_version():X16}");
         }
@@ -30,7 +30,8 @@ namespace Universe.LinuxTaskstat.Tests
         public void Show_Taskstat_PerProcess()
         {
             var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
-            Console.WriteLine($"HAS VALUE: {stat.HasValue}");
+            Console.WriteLine($"TaskStat HAS VALUE: {stat.HasValue}");
+            Assert.IsNotNull(stat, "TaskStat is expected. Probably permissions are missing");
             Console.WriteLine($"VER: {stat.Value.Version}");
         }
 
@@ -38,7 +39,8 @@ namespace Universe.LinuxTaskstat.Tests
         public void Show_Taskstat_PerThread()
         {
             var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
-            Console.WriteLine($"HAS VALUE: {stat.HasValue}");
+            Console.WriteLine($"TaskStat HAS VALUE: {stat.HasValue}");
+            Assert.IsNotNull(stat, "TaskStat is expected. Probably permissions are missing");
             Console.WriteLine($"VER: {stat.Value.Version}");
         }
 
