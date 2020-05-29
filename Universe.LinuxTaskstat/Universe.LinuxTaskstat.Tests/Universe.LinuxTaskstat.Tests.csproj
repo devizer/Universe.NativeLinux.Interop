@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\runtimes\linux-x64\libNativeLinuxInterop.so">
+      <Content Include="..\..\runtimes\linux-x64\libNativeLinuxInterop.so" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always">
         <Link>libNativeLinuxInterop.so</Link>
       </Content>
     </ItemGroup>

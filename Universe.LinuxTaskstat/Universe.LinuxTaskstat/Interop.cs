@@ -29,7 +29,7 @@ namespace Universe.LinuxTaskstat
         /// </listheader>
         /// <item>
         /// <term>1</term>
-        /// <description>either pid or tid arguments expected</description>
+        /// <description>Either pid or tid arguments expected</description>
         /// </item>
         /// <item>
         /// <term>2</term>
@@ -47,17 +47,8 @@ namespace Universe.LinuxTaskstat
         /// <term>8</term>
         /// <description>Fatal Reply Error. NLMSG_ERROR Recieved.</description>
         /// </item>
-        /// <item>
-        /// <term></term>
-        /// <description></description>
-        /// </item>
-        /// <item>
-        /// <term></term>
-        /// <description></description>
-        /// </item>
         /// </list>
         /// </returns>
-        // 
         [DllImport(LibName)]
         public static extern int get_taskstat(int pid, int tid, IntPtr taskStat, int taskStatSize, int debug);
 

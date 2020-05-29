@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace Universe.LinuxTaskstat.Tests
@@ -8,6 +10,28 @@ namespace Universe.LinuxTaskstat.Tests
         [SetUp]
         public void Setup()
         {
+        }
+
+        [Test]
+        public void Test_Pid()
+        {
+            Console.WriteLine($"Process.GetCurrentProcess().Id: {Process.GetCurrentProcess().Id}");
+            Console.WriteLine($"Interop.get_pid(): {Interop.get_pid()}");
+            Assert.AreEqual(Process.GetCurrentProcess().Id, Interop.get_pid());
+        }
+
+        [Test]
+        public void Test_Tid()
+        {
+            var tids = Process.GetCurrentProcess().Threads
+                .OfType<ProcessThread>()
+                .Select(x => x.Id)
+                .OrderBy(x => x)
+                .ToArray();
+            
+            Console.WriteLine($"Process.GetCurrentProcess().Threads: {string.Join(", ", tids)}");
+            Console.WriteLine($"Interop.get_tid(): {Interop.get_tid()}");
+            CollectionAssert.Contains(tids, Interop.get_tid());
         }
 
         [Test]
