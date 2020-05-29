@@ -48,9 +48,9 @@ function build() {
   pushd runtimes/$tag >/dev/null
   size=$(du . -d 0 | awk '{print $1}')
   popd>/dev/null
-  if [[ "$size" -lt 10000 ]]; then
+  if [[ "$size" -lt 10 ]]; then # KILO-Bytes
     echo "Deleting runtimes/$tag SIZE is $size"
-    rm -rf runtimes/$tag
+    # rm -rf runtimes/$tag
     echo $tag >> runtimes/missed.log
   else
     docker cp $name:/usr/include/linux/taskstats.h runtimes/$tag/taskstats.h
