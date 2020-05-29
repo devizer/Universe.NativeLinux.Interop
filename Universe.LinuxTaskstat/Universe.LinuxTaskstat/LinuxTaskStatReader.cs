@@ -57,7 +57,7 @@ namespace Universe.LinuxTaskstat
         [Conditional(("DEBUG"))]
         static void DebugMessage(string message)
         {
-#if DEBUG && NETCOREAPP
+#if DEBUG && (NETCOREAPP || NETSTANDARD2_0)
                 Console.WriteLine(message);
 #endif
             

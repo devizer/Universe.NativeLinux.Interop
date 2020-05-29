@@ -73,27 +73,19 @@ In comparision to Universe.CpuUsage package it targets linux only. Targets every
         <PackageReference Include="Theraot.Core" Version="3.0.2" />
     </ItemGroup>
 
-<!--
-    <ItemGroup>
-      <None Remove="libNativeLinuxInterop.so" />
-      <Content Include="libNativeLinuxInterop.so">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
--->
-
     <ItemGroup>
 
-        <Content Include="./../../runtimes/rhel.6-x64/native/libNativeLinuxInterop.so" Link="runtimes/rhel.6-x64/native/libNativeLinuxInterop.so">
+        <!-- Does not work properly? -->
+        <Content Include="./../../runtimes/rhel.6-x64/libNativeLinuxInterop.so" Link="runtimes/rhel.6-x64/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/rhel.6-x64/native</PackagePath>
         </Content>
-        <Content Include="./../../runtimes/linux-arm/native/libNativeLinuxInterop.so" Link="runtimes/linux-arm/native/libNativeLinuxInterop.so">
+        <Content Include="./../../runtimes/linux-arm/libNativeLinuxInterop.so" Link="runtimes/linux-arm/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/linux-arm/native</PackagePath>
         </Content>
-        <Content Include="./../../runtimes/linux-arm64/native/libNativeLinuxInterop.so" Link="runtimes/linux-arm64/native/libNativeLinuxInterop.so">
+        <Content Include="./../../runtimes/linux-arm64/libNativeLinuxInterop.so" Link="runtimes/linux-arm64/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/linux-arm64/native</PackagePath>
         </Content>
-        <Content Include="./../../runtimes/linux-x64/native/libNativeLinuxInterop.so" Link="runtimes/linux-x64/native/libNativeLinuxInterop.so">
+        <Content Include="./../../runtimes/linux-x64/libNativeLinuxInterop.so" Link="runtimes/linux-x64/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/linux-x64/native</PackagePath>
         </Content>
         

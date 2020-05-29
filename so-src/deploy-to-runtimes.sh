@@ -12,7 +12,7 @@ function deploy_to_runtimes () {
   rid=$1
   src_dir=$2
   echo RID: $rid
-  full_target=../runtimes/$rid/native
+  full_target=../runtimes/$rid
   mkdir -p $full_target
   cp -f runtimes/$src_dir/$lib $full_target/$lib
 }
