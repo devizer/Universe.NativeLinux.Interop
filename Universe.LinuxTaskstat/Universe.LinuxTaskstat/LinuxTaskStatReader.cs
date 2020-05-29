@@ -18,7 +18,7 @@ namespace Universe.LinuxTaskstat
             if (isOk != 0)
             {
                 if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.VerboseOutput) != 0)
-                    DebugMessage($"Warning. get_taskstat_version returned error {isOk}");
+                    DebugMessage($"Warning. get_taskstat_version() failed. {new TaskStatInteropException(isOk).Message}");
                 
                 if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
                     throw new TaskStatInteropException(isOk);
@@ -49,7 +49,7 @@ namespace Universe.LinuxTaskstat
             if (isOk != 0)
             {
                 if (isVerboseOutput)
-                    DebugMessage($"Warning. get_taskstat returned error {isOk}");
+                    DebugMessage($"Warning. get_taskstat() failed. {new TaskStatInteropException(isOk).Message}");
                 
                 if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
                     throw new TaskStatInteropException(isOk);
