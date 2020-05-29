@@ -16,8 +16,8 @@ namespace Universe.LinuxTaskstat.Tests
         public void Test_Pid()
         {
             Console.WriteLine($"Process.GetCurrentProcess().Id: {Process.GetCurrentProcess().Id}");
-            Console.WriteLine($"Interop.get_pid(): {Interop.get_pid()}");
-            Assert.AreEqual(Process.GetCurrentProcess().Id, Interop.get_pid());
+            Console.WriteLine($"Interop.get_pid(): {TaskStatInterop.get_pid()}");
+            Assert.AreEqual(Process.GetCurrentProcess().Id, TaskStatInterop.get_pid());
         }
 
         [Test]
@@ -30,8 +30,8 @@ namespace Universe.LinuxTaskstat.Tests
                 .ToArray();
             
             Console.WriteLine($"Process.GetCurrentProcess().Threads: {string.Join(", ", tids)}");
-            Console.WriteLine($"Interop.get_tid(): {Interop.get_tid()}");
-            CollectionAssert.Contains(tids, Interop.get_tid());
+            Console.WriteLine($"Interop.get_tid(): {TaskStatInterop.get_tid()}");
+            CollectionAssert.Contains(tids, TaskStatInterop.get_tid());
         }
 
         [Test]
@@ -47,13 +47,13 @@ namespace Universe.LinuxTaskstat.Tests
         [Test]
         public void Show_Taskstat_Version_Raw()
         {
-            Console.WriteLine($"Version: {Interop.get_taskstat_version():X16}");
+            Console.WriteLine($"Version: {TaskStatInterop.get_taskstat_version():X16}");
         }
         
         [Test]
         public void Show_Taskstat_PerProcess()
         {
-            var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
+            var stat = LinuxTaskStatReader.GetByProcess(TaskStatInterop.get_pid());
             Console.WriteLine($"TaskStat HAS VALUE: {stat.HasValue}");
             Assert.IsNotNull(stat, "TaskStat is expected. Probably permissions are missing");
             Console.WriteLine($"VER: {stat.Value.Version}");
@@ -62,7 +62,7 @@ namespace Universe.LinuxTaskstat.Tests
         [Test]
         public void Show_Taskstat_PerThread()
         {
-            var stat = LinuxTaskStatReader.GetByProcess(Interop.get_pid());
+            var stat = LinuxTaskStatReader.GetByProcess(TaskStatInterop.get_pid());
             Console.WriteLine($"TaskStat HAS VALUE: {stat.HasValue}");
             Assert.IsNotNull(stat, "TaskStat is expected. Probably permissions are missing");
             Console.WriteLine($"VER: {stat.Value.Version}");
