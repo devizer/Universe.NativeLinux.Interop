@@ -53,13 +53,30 @@ namespace Universe.LinuxTaskstat
                 
                 if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
                     throw new TaskStatInteropException(isOk);
-
+                
                 return null;
             }
 
             LinuxTaskStat ret = new LinuxTaskStat()
             {
                 Version = ((short*) taskStat)[0],
+                // blkio_count
+                BlockIoCount = ((long*)(taskStat + 32))[0],
+                // blkio_delay_total
+                BlockIoDelay = ((long*)(taskStat + 40))[0],
+                // swapin_count
+                SwapinCount = ((long*)(taskStat + 48))[0],
+                // swapin_delay_total
+                SwapinDelay = ((long*)(taskStat + 56))[0],
+                
+                // read_bytes
+                ReadBlockBackedBytes = ((long*)(taskStat + 248))[0],
+                WriteBlockBackedBytes = ((long*)(taskStat + 256))[0],
+                
+                // nvcsw
+                VoluntaryContextSwitches = ((long*)(taskStat + 256+16))[0],
+                // nivcsw
+                InvoluntaryContextSwitches = ((long*)(taskStat + 256+16+8))[0],
             };
 
             return ret;
