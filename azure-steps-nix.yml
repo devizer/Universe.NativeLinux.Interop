@@ -57,6 +57,7 @@ steps:
       export NUPKG_PACKAGE_SUFFIX="-pre"
       source build-nuget.sh
       cp -f $nupkg_full_name $to
+      nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package
       
       # release
       export NUPKG_PACKAGE_SUFFIX=""
@@ -66,6 +67,9 @@ steps:
       popd>/dev/null
     condition: succeededOrFailed()
     displayName: 'build 2 nugets'
+    env:
+      MY_TASKSTAT_NUGET: $(TASKSTAT_NUGET)
+
 
 
   - script: |
