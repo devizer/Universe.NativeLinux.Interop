@@ -43,7 +43,8 @@ steps:
   - script: |
       set -e
       pushd Universe.LinuxTaskstat>/dev/null
-      dotnet test -f netcoreapp3.1 -c Debug
+      # dotnet test -f netcoreapp3.1 -c Debug
+      bash test-as-root.sh
       popd>/dev/null
     displayName: 'dotnet test'
 
