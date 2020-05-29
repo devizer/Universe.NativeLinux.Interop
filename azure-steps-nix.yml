@@ -52,6 +52,7 @@ steps:
       pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
       bash build-nuget.sh
       popd>/dev/null
+    condition: succeededOrFailed()
     displayName: 'build nuget'
 
 
