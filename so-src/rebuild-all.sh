@@ -56,6 +56,7 @@ function build() {
 
 }
 
+build debian sid linux-x64
 
 build fedora 27 linux
 build fedora 28 linux
