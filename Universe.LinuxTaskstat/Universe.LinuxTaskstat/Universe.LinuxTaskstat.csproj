@@ -84,10 +84,10 @@ In comparision to Universe.CpuUsage package it targets linux only. Targets every
 
     <ItemGroup>
 
-        <Content  Include="./../../runtimes/rhel.6-x64/native/libNativeLinuxInterop.so" Link="runtimes/rhel.6-x64/native/libNativeLinuxInterop.so">
+        <Content Include="./../../runtimes/rhel.6-x64/native/libNativeLinuxInterop.so" Link="runtimes/rhel.6-x64/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/rhel.6-x64/native</PackagePath>
         </Content>
-        <Content  Include="./../../runtimes/linux-arm/native/libNativeLinuxInterop.so" Link="runtimes/linux-arm/native/libNativeLinuxInterop.so">
+        <Content Include="./../../runtimes/linux-arm/native/libNativeLinuxInterop.so" Link="runtimes/linux-arm/native/libNativeLinuxInterop.so">
             <PackagePath>runtimes/linux-arm/native</PackagePath>
         </Content>
         <Content Include="./../../runtimes/linux-arm64/native/libNativeLinuxInterop.so" Link="runtimes/linux-arm64/native/libNativeLinuxInterop.so">
