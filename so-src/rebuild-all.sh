@@ -36,8 +36,10 @@ function build() {
   printf "\n${image}:${tag}\n"
   toilet -f term -F border "$lddVer" | tee runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info | tee -a runtimes/$tag/versions.log
-  echo "ldd libNativeLinuxInterop.so:"
-  docker exec -t $name ldd libNativeLinuxInterop.so
+  echo "ldd libNativeLinuxInterop.so:" | tee -a runtimes/$tag/versions.log
+  docker exec -t $name ldd libNativeLinuxInterop.so | tee -a runtimes/$tag/versions.log
+  cmd='echo "Machine: $(uname -m); echo "Processor: $(uname -p)"'
+  docker exec -t $name sh -c "$cmd" | tee -a runtimes/$tag/versions.log
   
   echo "";
 
@@ -45,7 +47,7 @@ function build() {
   pushd runtimes/$tag >/dev/null
   size=$(du . -d 0 | awk '{print $1}')
   popd>/dev/null
-  if [[ "$size" -lt 10 ]]; then
+  if [[ "$size" -lt 10000 ]]; then
     echo "Deleting runtimes/$tag SIZE is $size"
     rm -rf runtimes/$tag
     echo $tag >> runtimes/missed.log
