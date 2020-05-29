@@ -24,7 +24,26 @@ steps:
       pushd so-src>/dev/null
       bash rebuild-all.sh
       popd>/dev/null
-    displayName: 'rebuild-all.sh'
+    displayName: 'rebuild-all.sh: libNativeLinuxInterop.so'
+
+  - script: |
+      pushd so-src>/dev/null
+      bash deploy-to-runtimes.sh
+      popd>/dev/null
+    displayName: 'reset versioned runtimes: deploy-to-runtimes.sh'
+
+  - script: |
+      pushd Universe.LinuxTaskstat>/dev/null
+      dotnet test -f netcoreapp3.1 -c Debug
+      popd>/dev/null
+    displayName: 'dotnet test'
+
+  - script: |
+      pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
+      bash build-nuget.sh
+      popd>/dev/null
+    displayName: 'build nuget'
+
 
   - script: |
       Show-System-Stat || true
@@ -37,4 +56,10 @@ steps:
     inputs:
       pathtoPublish: '$(Build.Repository.LocalPath)/so-src/runtimes'
       artifactName: 'Runtimes'
+      
+  - task: PublishBuildArtifacts@1
+    condition: succeededOrFailed()
+    inputs:
+      pathtoPublish: '$(Build.Repository.LocalPath)'
+      artifactName: 'Working'
       

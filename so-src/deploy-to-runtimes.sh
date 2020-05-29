@@ -19,13 +19,13 @@ function deploy_to_runtimes () {
 
 deploy_to_runtimes rhel.6-x64     6
 deploy_to_runtimes linux-arm      armhf-precise
-deploy_to_runtimes linux-arm64    arm64-trusty
 deploy_to_runtimes linux-x64      amd64-precise
 deploy_to_runtimes linux-x86      i386-precise
-deploy_to_runtimes linux-mips64el mips64el-stretch
-deploy_to_runtimes linux-powerpc  powerpc-wheezy
+deploy_to_runtimes linux-arm64    arm64-trusty
 deploy_to_runtimes linux-ppc64el  ppc64el-trusty
+deploy_to_runtimes linux-powerpc  powerpc-wheezy
 deploy_to_runtimes linux-armel    armel-wheezy
+deploy_to_runtimes linux-mips64el mips64el-stretch
 
 echo "DONE"
 

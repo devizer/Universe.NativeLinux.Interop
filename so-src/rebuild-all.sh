@@ -2,12 +2,15 @@
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
 try-and-retry sudo apt-get update
-smart-apt-install qemu-user-static -y
+smart-apt-install qemu-user-static toilet -y
 try-and-retry docker pull multiarch/qemu-user-static:register
 docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 rm -f runtimes/missed.log
 counter=0
+
+set -e
+
 function build() {
   image=$1
   tag=$2
@@ -17,7 +20,7 @@ function build() {
   name="temp-builder-${tag}"
   echo ""
   echo "${counter} NAME: $name"
-  docker rm -f $name >/dev/null 2>&1
+  docker rm -f $name >/dev/null 2>&1 || true
   cmd="docker pull ${image}:${tag} >/dev/null 2>&1"
   try-and-retry eval "$cmd"
   docker run -d --name $name --rm "${image}:${tag}" bash -c "while true; do sleep 999; done"
@@ -29,8 +32,13 @@ function build() {
   docker exec -t $name bash in-container.sh
   mkdir -p runtimes/$tag;
   docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
-  docker exec -t $name ldd --version | head -1 | tee runtimes/$tag/versions.log
+  lddVer="$(docker exec -t $name ldd --version | head -1)"
+  printf "\n${image}:${tag}\n"
+  toilet -f term -F border "$lddVer" | tee runtimes/$tag/versions.log
   docker exec -t $name ./show-taskstat-info | tee -a runtimes/$tag/versions.log
+  echo "ldd libNativeLinuxInterop.so:"
+  docker exec -t $name ldd libNativeLinuxInterop.so
+  
   echo "";
 
   # check is empty
@@ -55,6 +63,29 @@ function build() {
   fi
 
 }
+
+echo 'Release uses:
+deploy_to_runtimes rhel.6-x64     6
+deploy_to_runtimes linux-arm      armhf-precise
+deploy_to_runtimes linux-x64      amd64-precise
+deploy_to_runtimes linux-x86      i386-precise
+deploy_to_runtimes linux-arm64    arm64-trusty
+deploy_to_runtimes linux-ppc64el  ppc64el-trusty
+deploy_to_runtimes linux-powerpc  powerpc-wheezy
+deploy_to_runtimes linux-armel    armel-wheezy
+deploy_to_runtimes linux-mips64el mips64el-stretch
+'
+# for release
+build centos 6 linux-rhel.6
+build multiarch/ubuntu-debootstrap armhf-precise 
+build multiarch/ubuntu-debootstrap amd64-precise 
+build multiarch/ubuntu-debootstrap i386-precise 
+build multiarch/ubuntu-debootstrap arm64-trusty
+build multiarch/ubuntu-debootstrap ppc64el-trusty
+build multiarch/debian-debootstrap powerpc-wheezy
+build multiarch/debian-debootstrap armel-wheezy
+build multiarch/debian-debootstrap mips64el-stretch
+exit; 
 
 build debian sid linux-x64
 

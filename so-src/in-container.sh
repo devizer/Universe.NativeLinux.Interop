@@ -46,6 +46,7 @@ if [[ $(command -v yum 2>/dev/null) != "" ]]; then
     yum install gcc -y || yum install gcc -y || yum install gcc -y;
 fi
 
+# set -e
 # BUILD
 gcc -O2 -o show-taskstat-info show-taskstat-info.c;
 ls -la /gettaskstat.c;
