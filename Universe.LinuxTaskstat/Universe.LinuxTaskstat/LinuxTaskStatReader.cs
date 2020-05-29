@@ -5,19 +5,24 @@ namespace Universe.LinuxTaskstat
 {
     public class LinuxTaskStatReader
     {
-        public static bool IsGetTidSupported => Interop._IsGetTidSupported.Value;
-        public static bool IsGetPidSupported => Interop._IsGetPidSupported.Value;
-        public static bool IsGetTaskStatByProcessSupported => Interop._IsGetTaskStatByProcessSupported.Value;
-        public static bool IsGetTaskStatByThreadSupported => Interop._IsGetTaskStatByThreadSupported.Value;
+        public static bool IsGetTidSupported => TaskStatInterop._IsGetTidSupported.Value;
+        public static bool IsGetPidSupported => TaskStatInterop._IsGetPidSupported.Value;
+        public static bool IsGetTaskStatByProcessSupported => TaskStatInterop._IsGetTaskStatByProcessSupported.Value;
+        public static bool IsGetTaskStatByThreadSupported => TaskStatInterop._IsGetTaskStatByThreadSupported.Value;
 
         public int? GetTaskStatVersion()
         {
-            long verRaw = Interop.get_taskstat_version();
+            long verRaw = TaskStatInterop.get_taskstat_version();
             int isOk = (int) (verRaw >> 32);
             int ver = (int) (verRaw & 0xFFFFFFFF);
             if (isOk != 0)
             {
-                DebugMessage($"Warning. get_taskstat_version returned error {isOk}");
+                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.VerboseOutput) != 0)
+                    DebugMessage($"Warning. get_taskstat_version returned error {isOk}");
+                
+                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
+                    throw new TaskStatInteropException(isOk);
+                
                 return null;
             }
 
@@ -39,10 +44,16 @@ namespace Universe.LinuxTaskstat
             int size = 640;
             byte* taskStat = stackalloc byte[size];
 
-            int isOk = Interop.get_taskstat(pid, tid, (IntPtr) taskStat, size, IsDebug ? 1 : 0);
+            var isVerboseOutput = (TaskStatInterop.ErrorAction & TaskStatErrorAction.VerboseOutput) != 0;
+            int isOk = TaskStatInterop.get_taskstat(pid, tid, (IntPtr) taskStat, size, IsDebug || isVerboseOutput? 1 : 0);
             if (isOk != 0)
             {
-                DebugMessage($"Warning. get_taskstat returned error {isOk}");
+                if (isVerboseOutput)
+                    DebugMessage($"Warning. get_taskstat returned error {isOk}");
+                
+                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
+                    throw new TaskStatInteropException(isOk);
+
                 return null;
             }
 
