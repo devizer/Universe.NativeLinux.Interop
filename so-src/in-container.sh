@@ -35,12 +35,12 @@ APT::Compressor::bzip2::CompressArg:: "-1";
 APT::Compressor::lzma::CompressArg:: "-1";
 ' > /etc/apt/apt.conf.d/99Z_Custom
 
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
 
 if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
     apt-get update -qq || apt-get update -qq || apt-get update
     # build-essential
-    apt-get install libc6-dev gcc gettext -y -q || apt-get install libc6-dev gcc gettext -y -q || apt-get install libc6-dev gcc gettext -y
+    echo 12 | apt-get install libc6-dev gcc gettext -y -q || echo 12 | apt-get install libc6-dev gcc gettext -y -q || echo 12 | apt-get install libc6-dev gcc gettext -y
 fi
 
 if [[ $(command -v yum 2>/dev/null) != "" ]]; then
