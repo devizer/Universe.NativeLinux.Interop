@@ -85,6 +85,10 @@ deploy_to_runtimes linux-powerpc  powerpc-wheezy
 deploy_to_runtimes linux-armel    armel-wheezy
 deploy_to_runtimes linux-mips64el mips64el-stretch
 '
+# for taskstats versions
+build ubuntu focal # v10
+build fedora 29  # v9
+
 # for release
 build multiarch/ubuntu-debootstrap amd64-precise 
 build centos 6 linux-rhel.6
@@ -95,10 +99,6 @@ build multiarch/ubuntu-debootstrap ppc64el-trusty
 build multiarch/debian-debootstrap powerpc-wheezy
 build multiarch/debian-debootstrap armel-wheezy
 build multiarch/debian-debootstrap mips64el-stretch
-
-# for taskstats versions
-build ubuntu focal # v10
-build fedora 29  # v9
 
 exit; 
 
