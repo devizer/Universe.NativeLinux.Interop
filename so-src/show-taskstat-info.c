@@ -16,13 +16,23 @@
 #include <syscall.h>
 #include <stddef.h>
 
+#define PRINT_FIELD(__s__, __f__) { printf("    %20s: %ld\n", #__f__, (long) offsetof(struct __s__, __f__));  }
+
+#define PRINT_TASKSTATS_FIELF(__f__) { PRINT_FIELD(taskstats, __f__); }
+
 
 void print_taskstats_structure() {
     struct taskstats t;
-    printf("\ntaskstats internals:\n");
-    printf("         version: %ld\n", (long) offsetof(struct taskstats, version));
-    printf("     ac_exitcode: %ld\n", (long) offsetof(struct taskstats, ac_exitcode));
-    // PRINT_FIELD(taskstats, version);
+    printf("\n-->! taskstats internals:\n");
+    printf("                 version: %ld\n", (long) offsetof(struct taskstats, version));
+    printf("             ac_exitcode: %ld\n", (long) offsetof(struct taskstats, ac_exitcode));
+    PRINT_FIELD(taskstats, ac_exitcode);
+    PRINT_FIELD(taskstats, ac_flag);
+    PRINT_TASKSTATS_FIELF(ac_nice);
+    PRINT_TASKSTATS_FIELF(cpu_count);
+    PRINT_TASKSTATS_FIELF(cpu_delay_total);
+
+
 }
 
 void main()
