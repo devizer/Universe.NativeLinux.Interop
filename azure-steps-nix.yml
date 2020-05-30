@@ -59,7 +59,7 @@ steps:
       cp -f $nupkg_full_name $to/
       Say "Publishing [$nupkg_full_name]"
       cmd="nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package"
-      echo $cmd
+      # echo $cmd
       try-and-retry eval "$cmd"
       
       # release

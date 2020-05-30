@@ -12,7 +12,7 @@ cp -f Universe.LinuxTaskstat.nuspec bin/Release
 
 Say "VERSION to build: [$Version]. Removing auto packaged package"
 pushd bin/Release
-7z a -sdel nupkgs-prev-packed.7z *nupkg || true
+7z a nupkgs-prev-packed.7z "*nupkg" -sdel || true
 Say "VERSION to build: [$Version]. Nu-Packaging"
 nuget pack Universe.LinuxTaskstat.nuspec -Version "$Version"
 
