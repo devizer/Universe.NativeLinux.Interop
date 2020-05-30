@@ -17,6 +17,7 @@
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <AssemblyName>Universe.LinuxTaskStats</AssemblyName>
         <RootNamespace>Universe.LinuxTaskStats</RootNamespace>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
@@ -35,19 +36,18 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>Universe.LinuxTaskstat</PackageId>
-        <Title>Universe.LinuxTaskstat</Title>
+        <PackageId>Universe.LinuxTaskStats</PackageId>
+        <Title>Universe.LinuxTaskStats</Title>
         <Authors>Volodymyr Hoida</Authors>
-        <Product>Universe.LinuxTaskstat</Product>
+        <Product>Universe.LinuxTaskStats</Product>
         <Description>Per-task and per-process statistics from the kernel for .NET Core and Mono. Metrics are CPU Usage, counters and delays caused by IO, swap-in, memory reclaim and trashing. 
 Supports range of taskstat versions from RLEL/CentOS 6 to debian sid.
 In comparision to Universe.CpuUsage package it targets linux only. Targets everywhere: Net Framework 4.6+, .Net Standard 1.1+, Net Core 1.0-3.1</Description>
-        <PackageProjectUrl>https://github.com/devizer/Universe.Linuxtaskstat</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/devizer/Universe.Linuxtaskstat</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/devizer/Universe.LinuxTaskStats</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/devizer/Universe.LinuxTaskStats</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <!--<PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/images/CpuUsage.Icon-V2.png</PackageIconUrl>-->
         <PackageTags>metrics kernel kernel-time user-time cpu-usage linux taskstat blkio_count blkio_delay_total swapin_count swapin_delay_total read_bytes write_bytes freepages_count freepages_delay_total thrashing_count thrashing_delay_total</PackageTags>
-        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup>
