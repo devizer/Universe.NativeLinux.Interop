@@ -19,9 +19,9 @@
 
 void print_taskstats_structure() {
     struct taskstats t;
-    printf("\ntaskstats internals:\n")
-    printf("         version: %ld", (long) offsetof(struct taskstats, version));
-    printf("     ac_exitcode: %ld", (long) offsetof(struct taskstats, ac_exitcode));
+    printf("\ntaskstats internals:\n");
+    printf("         version: %ld\n", (long) offsetof(struct taskstats, version));
+    printf("     ac_exitcode: %ld\n", (long) offsetof(struct taskstats, ac_exitcode));
     // PRINT_FIELD(taskstats, version);
 }
 
