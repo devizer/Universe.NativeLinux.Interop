@@ -86,8 +86,8 @@ deploy_to_runtimes linux-armel    armel-wheezy
 deploy_to_runtimes linux-mips64el mips64el-stretch
 '
 # for taskstats versions
-build ubuntu focal # v9
-build fedora 32  # v10
+# build fedora 32  # v10
+# build ubuntu focal # v9
 
 # for release
 build multiarch/ubuntu-debootstrap amd64-precise 
