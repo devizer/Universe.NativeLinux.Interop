@@ -55,7 +55,7 @@ steps:
       pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
       
       # pre prelease
-      export NUPKG_PACKAGE_SUFFIX="-pre"
+      export NUPKG_PACKAGE_SUFFIX="-pre-${BUILD_BUILDID}"
       source build-nuget.sh
       cp -f $nupkg_full_name $to/
       Say "Publishing [$nupkg_full_name]"
