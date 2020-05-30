@@ -6,11 +6,21 @@ namespace Universe.LinuxTaskStats
         
         public short Nice { get; set; }
         
+        public int UserId { get; set; }        
+        public int GroupId { get; set; }
+        public int Pid { get; set; }        
+        public int ParentPId { get; set; }        
+        
+        
+        
         public long BlockIoCount { get; set; }
         public long BlockIoDelay { get; set; }
         
         public long SwapinCount { get; set; }
         public long SwapinDelay { get; set; }
+        
+        public int BeginTime32 { get; set; }
+        public long ElapsedTime { get; set; }
         
         public long UserTime { get; set; }
         public long KernelTime { get; set; }
@@ -44,7 +54,7 @@ namespace Universe.LinuxTaskStats
         // End of V9
         
         /* v10: 64-bit btime to avoid overflow */
-        public long? BeginTime { get; set; }
+        public long? BeginTime64 { get; set; }
         // End of V10
         
     }

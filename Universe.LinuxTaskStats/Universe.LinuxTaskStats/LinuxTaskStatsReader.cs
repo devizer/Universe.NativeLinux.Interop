@@ -57,32 +57,64 @@ namespace Universe.LinuxTaskStats
                 return null;
             }
 
-
             var version = *(short*) taskStat;
             Universe.LinuxTaskStats.LinuxTaskStats ret = new Universe.LinuxTaskStats.LinuxTaskStats()
             {
                 Version = version,
-                Nice = taskStat[7],
-                // blkio_count
+                Nice = taskStat[9],
+                
+                // blkio_count, blkio_delay_total
                 BlockIoCount = *(long*)(taskStat + 32),
-                // blkio_delay_total
                 BlockIoDelay = *(long*)(taskStat + 40),
-                // swapin_count
+                
+                // swapin_count, swapin_delay_total
                 SwapinCount = *(long*)(taskStat + 48),
-                // swapin_delay_total
                 SwapinDelay = *(long*)(taskStat + 56),
                 
-                // read_bytes
+                UserId = *(int*)(taskStat + 120),
+                GroupId = *(int*)(taskStat + 124),
+                Pid = *(int*)(taskStat + 128),
+                ParentPId = *(int*)(taskStat + 132),
+                
+                BeginTime32 = *(int*)(taskStat + 136),
+                ElapsedTime = *(long*)(taskStat + 144),
+
+                // utime, stime
+                UserTime = *(long*)(taskStat + 152),
+                KernelTime = *(long*)(taskStat + 160),
+                
+                // minflt, majflt
+                MinorPageFaults = *(long*)(taskStat + 168),
+                MajorPageFaults = *(long*)(taskStat + 176),
+
+                ReadBytes = *(long*)(taskStat + 216),
+                WriteBytes = *(long*)(taskStat + 224),
+                ReadSysCalls = *(long*)(taskStat + 232),
+                WriteSysCalls = *(long*)(taskStat + 240),
                 ReadBlockBackedBytes = *(long*)(taskStat + 248),
                 WriteBlockBackedBytes = *(long*)(taskStat + 256),
                 
-                // nvcsw
-                VoluntaryContextSwitches = *(long*)(taskStat + 256+16),
-                // nivcsw
-                InvoluntaryContextSwitches = *(long*)(taskStat + 256+16+8),
+                // nvcsw, nivcsw
+                VoluntaryContextSwitches = *(long*)(taskStat + 272),
+                InvoluntaryContextSwitches = *(long*)(taskStat + 280),
                 
-                // UserTime = ,
-                // KernelTime = 
+                // ac_utimescaled, ac_stimescaled, cpu_scaled_run_real_total
+                UserTimeSmtScaled = *(long*)(taskStat + 288),
+                KernelTimeSmtScaled = *(long*)(taskStat + 296),
+                RealTimeSmtScaled = *(long*)(taskStat + 304),
+
+                // freepages_count, freepages_delay_total
+                MemoryPageReclaimCounter = *(long*)(taskStat + 312),
+                MemoryPageReclaimDelay = *(long*)(taskStat + 320),
+                
+                // thrashing_count, thrashing_delay_total 
+                MemoryPageTrashingCounter = version >= 9 ? *(long*)(taskStat + 328) : (long?) null,
+                MemoryPageTrashingDelay = version >= 9 ? *(long*)(taskStat + 336) : (long?) null,
+                
+                // ac_btime64                 
+                BeginTime64 = version >= 10 ? *(long*)(taskStat + 344) : (long?) null,
+                
+                
             };
 
             return ret;
