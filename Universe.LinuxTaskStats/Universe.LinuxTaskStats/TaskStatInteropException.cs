@@ -3,6 +3,7 @@ using System;
 namespace Universe.LinuxTaskStats
 {
     /// <summary>
+    /// By default this exception is never thrown. ErrorNumber property provides details:  
     /// <list type="bullet">
     /// <listheader>
     /// <term>0</term>
