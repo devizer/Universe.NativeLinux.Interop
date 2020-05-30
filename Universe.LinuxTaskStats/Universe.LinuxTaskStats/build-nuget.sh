@@ -13,6 +13,26 @@ cp -f Universe.LinuxTaskStats.nuspec bin/Release
 Say "VERSION to build: [$Version]. Removing auto packaged package"
 pushd bin/Release
 7z a nupkgs-prev-packed.7z "*nupkg" -sdel || true
+
+
+Say "VERSION to build: [$Version]. Align FileSystem"
+runtimes="linux-arm  linux-arm64  linux-armel  linux-mips64el  linux-powerpc  linux-ppc64el  linux-x64  linux-x86  rhel.6-x64"
+targets="netcoreapp1.0  netcoreapp3.1  netstandard1.1  netstandard2.0"
+
+for t in $targets; do
+    for rt in $runtimes; do
+        mkdir -p ref/$t
+        cp -f $t/*.dll ref/$t/
+
+        mkdir -p runtimes/$rt/native runtimes/$rt/lib/$t
+        cp -f ../../../../runtimes/$rt/*.so runtimes/$rt/native/ 
+        cp -f $t/* runtimes/$rt/lib/$t/
+        cp -f ../../../../runtimes/$rt/libNativeLinuxInterop.so net40/libNativeLinuxInterop.so-$rt
+    done
+done
+find runtimes -name '*.deps.json' | xargs rm
+
+
 Say "VERSION to build: [$Version]. Nu-Packaging"
 nuget pack Universe.LinuxTaskStats.nuspec -Version "$Version"
 

@@ -26,6 +26,12 @@
     <files>
         <file src="../../../../images/Main.Icon.png" target="images" />
         
+        <file src="net40/**" target="lib/net40" />
+        <file src="ref/**" target="ref" />
+        <file src="runtimes/**" target="runtimes" />
+        
+        
+<!--
         <file src="netstandard2.0/Universe.LinuxTaskStats.dll" target="ref/netstandard2.0" />
         
         <file src="net40/Universe.LinuxTaskStats.*" target="lib/net40" />
@@ -53,6 +59,7 @@
 
         <file src="../../../../runtimes/linux-ppc64el/libNativeLinuxInterop.so" target="runtimes/linux-ppc64el/native" />
         <file src="netstandard2.0/Universe.LinuxTaskStats.*" exclude="**/*.json" target="runtimes/linux-ppc64el/lib/netstandard2.0" />
+-->
 
 
     </files>
