@@ -1,3 +1,4 @@
+name: $(BuildID).$(Date:yyyyMMdd).$(Rev:r)
 variables:
     no_vars: ""
 

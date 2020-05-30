@@ -1,7 +1,7 @@
 ### taskstat for .NET Core and Mono
-Per-task and per-process statistics from the kernel for .NET Core and Mono. Metrics are CPU Usage, counters and delays caused by IO, swap-in, memory reclaim and trashing.
+Per-task and per-process statistics from the Linux kernel for .NET Core and Mono for x64, arm, and arm64. The metrics include CPU Usage, counters and delays caused by IO, swap-in, memory reclaim, and memory trashing. Supports a range of taskstat versions available in the wild starting from 7th on RHEL 6. In comparison to the [Universe.CpuUsage](https://github.com/devizer/Universe.CpuUsage) package it is linux only, but it provides much more details on CPU usage and IO activity by thread/process. Targets everywhere: .Net Standard 1.1+, Net Core 1.0-3.1, Mono 3.12+
 
-In comparision to the [Universe.CpuUsage](https://github.com/devizer/Universe.CpuUsage) package it is linux only. Targets everywhere: .Net Standard 1.1+, Net Core 1.0-3.1, Mono 3.12+ 
+In comparision to the  package it is linux only. Targets everywhere: .Net Standard 1.1+, Net Core 1.0-3.1, Mono 3.12+ 
 
 ### Precompiled native shared objects  
 Minimum libc.so/glibc.so version requirement depends on architecture
