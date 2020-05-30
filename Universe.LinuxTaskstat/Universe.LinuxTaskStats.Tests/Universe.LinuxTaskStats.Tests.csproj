@@ -4,6 +4,10 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <AssemblyName>Universe.LinuxTaskStats.Tests</AssemblyName>
+
+        <RootNamespace>Universe.LinuxTaskStats.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,13 +18,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Universe.LinuxTaskstat\Universe.LinuxTaskstat.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="..\..\runtimes\linux-x64\libNativeLinuxInterop.so" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always">
         <Link>libNativeLinuxInterop.so</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Universe.LinuxTaskStats\Universe.LinuxTaskStats.csproj" />
     </ItemGroup>
 
 </Project>

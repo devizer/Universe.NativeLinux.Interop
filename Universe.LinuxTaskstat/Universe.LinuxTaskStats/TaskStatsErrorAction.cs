@@ -1,9 +1,9 @@
 using System;
 
-namespace Universe.LinuxTaskstat
+namespace Universe.LinuxTaskstats
 {
     [Flags]
-    public enum TaskStatErrorAction
+    public enum TaskStatsErrorAction
     {
         ReturnNull = 0,
         ThrowException = 1,

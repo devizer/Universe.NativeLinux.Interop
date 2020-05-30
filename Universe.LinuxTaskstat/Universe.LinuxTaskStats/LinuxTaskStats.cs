@@ -1,6 +1,6 @@
-namespace Universe.LinuxTaskstat
+namespace Universe.LinuxTaskstats
 {
-    public struct LinuxTaskStat
+    public struct LinuxTaskStats
     {
         public short Version { get; set; }
         

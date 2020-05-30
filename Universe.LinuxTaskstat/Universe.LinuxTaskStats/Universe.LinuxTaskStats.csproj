@@ -15,6 +15,8 @@
         <DebugType>Full</DebugType>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <AssemblyName>Universe.LinuxTaskStats</AssemblyName>
+        <RootNamespace>Universe.LinuxTaskStats</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <SignAssembly>True</SignAssembly>
         <DelaySign>False</DelaySign>
-        <AssemblyOriginatorKeyFile>..\Shared\Universe.LinuxTaskstat.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>..\Shared\Universe.LinuxTaskStats.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

@@ -2,11 +2,11 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Universe.LinuxTaskstat
+namespace Universe.LinuxTaskstats
 {
     public static class TaskStatInterop
     {
-        public static TaskStatErrorAction ErrorAction { get; } = TaskStatErrorAction.ReturnNull;
+        public static TaskStatsErrorAction ErrorAction { get; } = TaskStatsErrorAction.ReturnNull;
         
         private const int TASKSTAT_ENOUGH_SIZE = 1024;
         private const string LibName = "libNativeLinuxInterop";

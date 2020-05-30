@@ -1,9 +1,9 @@
 using System;
 using System.Diagnostics;
 
-namespace Universe.LinuxTaskstat
+namespace Universe.LinuxTaskstats
 {
-    public class LinuxTaskStatReader
+    public class LinuxTaskStatsReader
     {
         public static bool IsGetTidSupported => TaskStatInterop._IsGetTidSupported.Value;
         public static bool IsGetPidSupported => TaskStatInterop._IsGetPidSupported.Value;
@@ -17,10 +17,10 @@ namespace Universe.LinuxTaskstat
             int ver = (int) (verRaw & 0xFFFFFFFF);
             if (isOk != 0)
             {
-                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.VerboseOutput) != 0)
+                if ((TaskStatInterop.ErrorAction & TaskStatsErrorAction.VerboseOutput) != 0)
                     DebugMessage($"Warning. get_taskstat_version() failed. {new TaskStatInteropException(isOk).Message}");
                 
-                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
+                if ((TaskStatInterop.ErrorAction & TaskStatsErrorAction.ThrowException) != 0)
                     throw new TaskStatInteropException(isOk);
                 
                 return null;
@@ -29,29 +29,29 @@ namespace Universe.LinuxTaskstat
             return ver;
         }
         
-        public static LinuxTaskStat? GetByThread(int threadId)
+        public static LinuxTaskStats? GetByThread(int threadId)
         {
             return Get_Impl(0, threadId);
         }
 
-        public static LinuxTaskStat? GetByProcess(int processId)
+        public static LinuxTaskStats? GetByProcess(int processId)
         {
             return Get_Impl(processId, 0);
         }
 
-        static unsafe LinuxTaskStat? Get_Impl(int pid, int tid)
+        static unsafe LinuxTaskStats? Get_Impl(int pid, int tid)
         {
             int size = 640;
             byte* taskStat = stackalloc byte[size];
 
-            var isVerboseOutput = (TaskStatInterop.ErrorAction & TaskStatErrorAction.VerboseOutput) != 0;
+            var isVerboseOutput = (TaskStatInterop.ErrorAction & TaskStatsErrorAction.VerboseOutput) != 0;
             int isOk = TaskStatInterop.get_taskstat(pid, tid, (IntPtr) taskStat, size, IsDebug || isVerboseOutput? 1 : 0);
             if (isOk != 0)
             {
                 if (isVerboseOutput)
                     DebugMessage($"Warning. get_taskstat() failed. {new TaskStatInteropException(isOk).Message}");
                 
-                if ((TaskStatInterop.ErrorAction & TaskStatErrorAction.ThrowException) != 0)
+                if ((TaskStatInterop.ErrorAction & TaskStatsErrorAction.ThrowException) != 0)
                     throw new TaskStatInteropException(isOk);
                 
                 return null;
@@ -59,7 +59,7 @@ namespace Universe.LinuxTaskstat
 
 
             var version = *(short*) taskStat;
-            LinuxTaskStat ret = new LinuxTaskStat()
+            LinuxTaskStats ret = new LinuxTaskStats()
             {
                 Version = version,
                 Nice = taskStat[7],

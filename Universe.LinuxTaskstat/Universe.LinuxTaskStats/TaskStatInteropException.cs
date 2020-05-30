@@ -1,6 +1,6 @@
 using System;
 
-namespace Universe.LinuxTaskstat
+namespace Universe.LinuxTaskstats
 {
     /// <summary>
     /// <list type="bullet">
