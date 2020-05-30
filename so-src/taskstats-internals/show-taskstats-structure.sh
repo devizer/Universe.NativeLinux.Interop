@@ -57,5 +57,5 @@ for TASKSTATS_FIELD_NAME in $fields; do
     echo "                         error: $TASKSTATS_FIELD_NAME"
   fi
 
-  # rm -f /tmp/field.*
+  rm -f /tmp/field.*
 done
