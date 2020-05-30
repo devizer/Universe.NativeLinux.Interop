@@ -3,11 +3,11 @@ using System;
 namespace Universe.LinuxTaskStats
 {
     /// <summary>
-    /// By default this exception is never thrown. ErrorNumber property provides details:  
+    /// <para>ErrorNumber property provides details on native-side error:</para>  
     /// <list type="bullet">
     /// <listheader>
     /// <term>0</term>
-    /// <description>OK, taskstat structure successfully retrieved</description>
+    /// <description>OK, taskstats structure successfully retrieved</description>
     /// </listheader>
     /// <item>
     /// <term>1</term>

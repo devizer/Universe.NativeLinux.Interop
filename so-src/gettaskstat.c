@@ -278,7 +278,7 @@ __u32 get_ts_size_bv(__u16 version)
 }
 
 
-void smart_copy_taskstat(struct taskstats *t, void *to)
+void smart_copy_taskstats(struct taskstats *t, void *to)
 {
     memcpy(to, t, get_ts_size_bv(t->version));
 }
@@ -589,7 +589,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
 }
 
 
-extern __u64 get_taskstat_version()
+extern __u64 get_taskstats_version()
 {
     // size that exceeds any version
     struct taskstats *t = malloc(1024);
