@@ -1,4 +1,4 @@
-name: $(BuildID).$(Date:yyyyMMdd).$(Rev:r)
+name: $(BuildID).$(Date:yyyyMMdd)
 variables:
     no_vars: ""
 
