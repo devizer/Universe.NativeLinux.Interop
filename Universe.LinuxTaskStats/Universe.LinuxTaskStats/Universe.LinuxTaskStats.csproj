@@ -46,7 +46,7 @@ In comparision to Universe.CpuUsage package it targets linux only. Targets every
         <PackageProjectUrl>https://github.com/devizer/Universe.LinuxTaskStats</PackageProjectUrl>
         <RepositoryUrl>https://github.com/devizer/Universe.LinuxTaskStats</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <!--<PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.CpuUsage/master/images/CpuUsage.Icon-V2.png</PackageIconUrl>-->
+        <PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.NativeLinux.Interop/master/images/Main.Icon.png</PackageIconUrl>
         <PackageTags>metrics kernel kernel-time user-time cpu-usage linux taskstat blkio_count blkio_delay_total swapin_count swapin_delay_total read_bytes write_bytes freepages_count freepages_delay_total thrashing_count thrashing_delay_total</PackageTags>
     </PropertyGroup>
 
