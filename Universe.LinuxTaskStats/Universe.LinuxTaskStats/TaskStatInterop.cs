@@ -18,10 +18,10 @@ namespace Universe.LinuxTaskStats
         public static extern int get_pid();
 
         [DllImport(LibName)]
-        public static extern long get_taskstat_version();
+        public static extern long get_taskstats_version();
         
         [DllImport(LibName)]
-        public static extern int get_taskstat(int pid, int tid, IntPtr taskStat, int taskStatSize, int debug);
+        public static extern int get_taskstats(int pid, int tid, IntPtr taskStat, int taskStatSize, int debug);
 
         internal static Lazy<bool> _IsGetTidSupported = new Lazy<bool>(() =>
         {
@@ -37,14 +37,14 @@ namespace Universe.LinuxTaskStats
         {
             if (!_IsGetPidSupported.Value) return false;
             byte* taskStat = stackalloc byte[TASKSTAT_ENOUGH_SIZE];
-            return IsSuccess("get_taskstat(pid)", () => get_taskstat(get_pid(), 0, (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
+            return IsSuccess("get_taskstat(pid)", () => get_taskstats(get_pid(), 0, (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
         });
 
         internal static unsafe Lazy<bool> _IsGetTaskStatByThreadSupported = new Lazy<bool>(() =>
         {
             if (!_IsGetTidSupported.Value) return false;
             byte* taskStat = stackalloc byte[TASKSTAT_ENOUGH_SIZE];
-            return IsSuccess("get_taskstat(tid)", () => get_taskstat(0, get_tid(), (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
+            return IsSuccess("get_taskstat(tid)", () => get_taskstats(0, get_tid(), (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
         });
 
         private static bool IsSuccess(string caption, Action toTry)

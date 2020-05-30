@@ -17,10 +17,20 @@
 #include <linux/cgroupstats.h>
 #include <syscall.h>
 
+
 int hello(void) {
     return 0;
 }
 
-void print_taskstats
+#include <stddef.h>
+
+#define PRINT_FIELD(__s__, __f__) { printf("    __f__: %ld", (long) offsetof(struct __s__, __f__));  }
+
+
+void print_taskstats_structure() {
+    struct taskstats t;
+    printf("   version: %ld", (long) offsetof(struct taskstats, version));
+    // PRINT_FIELD(taskstats, version);
+}
 
 // int GetByProcess()

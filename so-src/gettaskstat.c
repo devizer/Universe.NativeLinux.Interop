@@ -524,7 +524,7 @@ extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 
                                 count++;
                                 done = 1;
                                 struct taskstats *taskStat = (struct taskstats *) NLA_DATA(na);
-                                smart_copy_taskstat(taskStat, targetTaskStat);
+                                smart_copy_taskstats(taskStat, targetTaskStat);
 /*
                                 if (print_delays)
                                     print_delayacct((struct taskstats *) NLA_DATA(na));

@@ -12,7 +12,7 @@ namespace Universe.LinuxTaskStats
 
         public int? GetTaskStatVersion()
         {
-            long verRaw = TaskStatInterop.get_taskstat_version();
+            long verRaw = TaskStatInterop.get_taskstats_version();
             int isOk = (int) (verRaw >> 32);
             int ver = (int) (verRaw & 0xFFFFFFFF);
             if (isOk != 0)
@@ -45,7 +45,7 @@ namespace Universe.LinuxTaskStats
             byte* taskStat = stackalloc byte[size];
 
             var isVerboseOutput = (TaskStatInterop.ErrorAction & TaskStatsErrorAction.VerboseOutput) != 0;
-            int isOk = TaskStatInterop.get_taskstat(pid, tid, (IntPtr) taskStat, size, IsDebug || isVerboseOutput? 1 : 0);
+            int isOk = TaskStatInterop.get_taskstats(pid, tid, (IntPtr) taskStat, size, IsDebug || isVerboseOutput? 1 : 0);
             if (isOk != 0)
             {
                 if (isVerboseOutput)

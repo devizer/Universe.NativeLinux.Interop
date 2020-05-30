@@ -47,7 +47,7 @@ namespace Universe.LinuxTaskStats.Tests
         [Test]
         public void Show_Taskstat_Version_Raw()
         {
-            Console.WriteLine($"Version: {TaskStatInterop.get_taskstat_version():X16}");
+            Console.WriteLine($"Version: {TaskStatInterop.get_taskstats_version():X16}");
         }
         
         [Test]
