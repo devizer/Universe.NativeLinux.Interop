@@ -38,12 +38,12 @@ APT::Compressor::lzma::CompressArg:: "-1";
 if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
     apt-get update -qq || apt-get update -qq || apt-get update
     # build-essential
-    apt-get install libc6-dev gcc -y -q || apt-get install libc6-dev gcc -y -q || apt-get install libc6-dev gcc -y
+    apt-get install libc6-dev gcc gettext -y -q || apt-get install libc6-dev gcc gettext -y -q || apt-get install libc6-dev gcc gettext -y
 fi
 
 if [[ $(command -v yum 2>/dev/null) != "" ]]; then
     yum makecache >/dev/null 2>&1 || yum makecache >/dev/null 2>&1 || yum makecache
-    yum install gcc -y || yum install gcc -y || yum install gcc -y;
+    yum install gcc gettext -y || yum install gcc  gettext -y || yum install gcc  gettext -y;
 fi
 
 # set -e

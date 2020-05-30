@@ -25,9 +25,10 @@ function build() {
   cmd="docker pull ${image}:${tag} >/dev/null 2>&1"
   try-and-retry eval "$cmd"
   docker run -d --name $name --rm "${image}:${tag}" bash -c "while true; do sleep 999; done"
-  for src in *.c in-container.sh; do
+  for src in *.c in-container.sh taskstats-internals/* ; do
+    name_only=$(basename $src)
     echo COPYING $src
-    docker cp "$src" "$name:/$src"
+    docker cp "$src" "$name:/$name_only"
   done
 
   docker exec -t $name bash in-container.sh
@@ -41,6 +42,11 @@ function build() {
   docker exec -t $name ldd libNativeLinuxInterop.so | tee -a runtimes/$tag/versions.log
   cmd='echo "Machine: $(uname -m)"; echo "Processor: $(uname -p)"'
   docker exec -t $name sh -c "$cmd" | tee -a runtimes/$tag/versions.log
+
+  # show-taskstats-structure.sh
+  docker exec -t $name bash show-taskstats-structure.sh | tee -a runtimes/$tag/versions.log
+
+
   
   echo "";
 
