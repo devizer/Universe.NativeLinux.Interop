@@ -57,26 +57,32 @@ namespace Universe.LinuxTaskstat
                 return null;
             }
 
+
+            var version = *(short*) taskStat;
             LinuxTaskStat ret = new LinuxTaskStat()
             {
-                Version = ((short*) taskStat)[0],
+                Version = version,
+                Nice = taskStat[7],
                 // blkio_count
-                BlockIoCount = ((long*)(taskStat + 32))[0],
+                BlockIoCount = *(long*)(taskStat + 32),
                 // blkio_delay_total
-                BlockIoDelay = ((long*)(taskStat + 40))[0],
+                BlockIoDelay = *(long*)(taskStat + 40),
                 // swapin_count
-                SwapinCount = ((long*)(taskStat + 48))[0],
+                SwapinCount = *(long*)(taskStat + 48),
                 // swapin_delay_total
-                SwapinDelay = ((long*)(taskStat + 56))[0],
+                SwapinDelay = *(long*)(taskStat + 56),
                 
                 // read_bytes
-                ReadBlockBackedBytes = ((long*)(taskStat + 248))[0],
-                WriteBlockBackedBytes = ((long*)(taskStat + 256))[0],
+                ReadBlockBackedBytes = *(long*)(taskStat + 248),
+                WriteBlockBackedBytes = *(long*)(taskStat + 256),
                 
                 // nvcsw
-                VoluntaryContextSwitches = ((long*)(taskStat + 256+16))[0],
+                VoluntaryContextSwitches = *(long*)(taskStat + 256+16),
                 // nivcsw
-                InvoluntaryContextSwitches = ((long*)(taskStat + 256+16+8))[0],
+                InvoluntaryContextSwitches = *(long*)(taskStat + 256+16+8),
+                
+                // UserTime = ,
+                // KernelTime = 
             };
 
             return ret;

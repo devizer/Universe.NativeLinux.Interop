@@ -37,14 +37,15 @@ namespace Universe.LinuxTaskstat
         
         public long MemoryPageReclaimCounter { get; set; }
         public long MemoryPageReclaimDelay { get; set; }
-        // End V7
+        // End of V7
         
         public long? MemoryPageTrashingCounter { get; set; }
         public long? MemoryPageTrashingDelay { get; set; }
-        // End V9
+        // End of V9
         
         /* v10: 64-bit btime to avoid overflow */
         public long? BeginTime { get; set; }
+        // End of V10
         
     }
 }
