@@ -12,9 +12,9 @@ swapin_count
 swapin_delay_total
 cpu_run_real_total
 cpu_run_virtual_total
-ac_comm[TS_COMM_LEN]
+ac_comm
 ac_sched
-ac_pad[3]
+ac_pad
 ac_uid
 ac_gid
 ac_pid
