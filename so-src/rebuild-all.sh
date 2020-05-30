@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
+export DEBIAN_FRONTEND=noninteractive
 try-and-retry sudo apt-get update
 smart-apt-install qemu-user-static toilet -y
 try-and-retry docker pull multiarch/qemu-user-static:register
