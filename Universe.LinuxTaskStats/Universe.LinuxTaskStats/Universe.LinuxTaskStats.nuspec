@@ -29,6 +29,7 @@
         <file src="net40/**" target="lib/net40" />
         <file src="ref/**" target="ref" />
         <file src="runtimes/**" target="runtimes" />
+        <file src="content/**" target="content" />
         
         
 <!--
