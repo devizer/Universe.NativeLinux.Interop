@@ -25,13 +25,13 @@ steps:
       pushd so-src>/dev/null
       bash re-build-local.sh
       popd>/dev/null
-    displayName: 're-build-local.sh'
+    displayName: '[so] re-build-local.sh'
 
   - script: |
       pushd so-src>/dev/null
       bash rebuild-all.sh
       popd>/dev/null
-    displayName: 'rebuild-all.sh: libNativeLinuxInterop.so'
+    displayName: '[so] rebuild-all.sh: libNativeLinuxInterop.so'
 
   - script: |
       rm -rf ./runtimes || true 
