@@ -43,5 +43,5 @@ void main()
                     TASKSTATS_VERSION,
                     TS_COMM_LEN, sizeof(int));
 
-    print_taskstats_structure();
+    // print_taskstats_structure();
 }
