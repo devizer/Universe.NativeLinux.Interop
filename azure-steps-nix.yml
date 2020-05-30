@@ -42,7 +42,7 @@ steps:
 
   - script: |
       set -e
-      pushd Universe.LinuxTaskstat>/dev/null
+      pushd Universe.LinuxTaskStats>/dev/null
       # dotnet test -f netcoreapp3.1 -c Debug
       bash test-as-root.sh
       popd>/dev/null
@@ -52,7 +52,7 @@ steps:
       set -e
       to=$(pwd)/packages; mkdir -p $to
       
-      pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
+      pushd Universe.LinuxTaskStats/Universe.LinuxTaskStats>/dev/null
       
       # pre prelease
       export NUPKG_PACKAGE_SUFFIX="-pre-${BUILD_BUILDID}"
