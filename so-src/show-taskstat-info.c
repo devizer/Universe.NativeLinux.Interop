@@ -14,6 +14,16 @@
 #include <linux/taskstats.h>
 #include <linux/cgroupstats.h>
 #include <syscall.h>
+#include <stddef.h>
+
+
+void print_taskstats_structure() {
+    struct taskstats t;
+    printf("\ntaskstats internals:\n")
+    printf("         version: %ld", (long) offsetof(struct taskstats, version));
+    printf("     ac_exitcode: %ld", (long) offsetof(struct taskstats, ac_exitcode));
+    // PRINT_FIELD(taskstats, version);
+}
 
 void main()
 {
@@ -22,4 +32,6 @@ void main()
                     sizeof (struct taskstats),
                     TASKSTATS_VERSION,
                     TS_COMM_LEN, sizeof(int));
+
+    print_taskstats_structure();
 }

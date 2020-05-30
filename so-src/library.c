@@ -26,10 +26,11 @@ int hello(void) {
 
 #define PRINT_FIELD(__s__, __f__) { printf("    __f__: %ld", (long) offsetof(struct __s__, __f__));  }
 
-
+// https://stackoverflow.com/questions/18749349/finding-offset-of-a-structure-element-in-c
 void print_taskstats_structure() {
     struct taskstats t;
     printf("   version: %ld", (long) offsetof(struct taskstats, version));
+    printf("   ac_exitcode: %ld", (long) offsetof(struct taskstats, ac_exitcode));
     // PRINT_FIELD(taskstats, version);
 }
 
