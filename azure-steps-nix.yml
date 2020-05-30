@@ -51,6 +51,7 @@ steps:
   - script: |
       set -e
       to=$(pwd)/packages; mkdir -p $to
+      
       pushd Universe.LinuxTaskstat/Universe.LinuxTaskstat>/dev/null
       
       # pre prelease
@@ -96,6 +97,6 @@ steps:
   - task: PublishBuildArtifacts@1
     condition: succeededOrFailed()
     inputs:
-      pathtoPublish: '$(Build.Repository.LocalPath)/packages/*'
+      pathtoPublish: '$(Build.Repository.LocalPath)/packages'
       artifactName: 'Packages'
       
