@@ -1,7 +1,8 @@
 using System;
 using System.Diagnostics;
+using Universe.LinuxTaskStats;
 
-namespace Universe.LinuxTaskstats
+namespace Universe.LinuxTaskStats
 {
     public class LinuxTaskStatsReader
     {
@@ -29,17 +30,17 @@ namespace Universe.LinuxTaskstats
             return ver;
         }
         
-        public static LinuxTaskStats? GetByThread(int threadId)
+        public static Universe.LinuxTaskStats.LinuxTaskStats? GetByThread(int threadId)
         {
             return Get_Impl(0, threadId);
         }
 
-        public static LinuxTaskStats? GetByProcess(int processId)
+        public static Universe.LinuxTaskStats.LinuxTaskStats? GetByProcess(int processId)
         {
             return Get_Impl(processId, 0);
         }
 
-        static unsafe LinuxTaskStats? Get_Impl(int pid, int tid)
+        static unsafe Universe.LinuxTaskStats.LinuxTaskStats? Get_Impl(int pid, int tid)
         {
             int size = 640;
             byte* taskStat = stackalloc byte[size];
@@ -59,7 +60,7 @@ namespace Universe.LinuxTaskstats
 
 
             var version = *(short*) taskStat;
-            LinuxTaskStats ret = new LinuxTaskStats()
+            Universe.LinuxTaskStats.LinuxTaskStats ret = new Universe.LinuxTaskStats.LinuxTaskStats()
             {
                 Version = version,
                 Nice = taskStat[7],

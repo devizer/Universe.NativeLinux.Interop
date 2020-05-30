@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Universe.LinuxTaskstats.Tests
+namespace Universe.LinuxTaskStats.Tests
 {
     public class LinuxTaskStat_Tests
     {

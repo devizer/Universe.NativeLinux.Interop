@@ -1,6 +1,6 @@
 using System;
 
-namespace Universe.LinuxTaskstats
+namespace Universe.LinuxTaskStats
 {
     [Flags]
     public enum TaskStatsErrorAction

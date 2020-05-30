@@ -1,4 +1,4 @@
-namespace Universe.LinuxTaskstats
+namespace Universe.LinuxTaskStats
 {
     public struct LinuxTaskStats
     {

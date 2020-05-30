@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Universe.LinuxTaskStats;
 
-namespace Universe.LinuxTaskstats
+namespace Universe.LinuxTaskStats
 {
     public static class TaskStatInterop
     {
