@@ -18,8 +18,9 @@ deb http://archive.debian.org/debian-security wheezy/updates main
 ' > /etc/apt/sources.list
     fi
 
+# NO Install-Recommends
 echo '
-APT::Install-Recommends "1";
+APT::Install-Recommends "0";
 APT::NeverAutoRemove:: ".*";
 
 Acquire::Check-Valid-Until "0";
