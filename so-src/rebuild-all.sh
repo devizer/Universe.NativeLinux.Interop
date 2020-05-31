@@ -45,7 +45,7 @@ function build() {
   docker exec -t $name sh -c "$cmd" | tee -a runtimes/$tag/versions.log
 
   # show-taskstats-structure.sh
-  docker exec -t $name bash show-taskstats-structure.sh | tee -a runtimes/$tag/versions.log
+  docker exec -t $name bash show-taskstats-structure.sh | tee -a runtimes/$tag/versions.log || exit 777
 
 
   
