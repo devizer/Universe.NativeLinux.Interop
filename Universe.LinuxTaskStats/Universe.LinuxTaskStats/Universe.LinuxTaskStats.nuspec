@@ -10,7 +10,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">MIT</license>
         <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
-        <projectUrl>https://github.com/devizer/Universe.Linuxtaskstat</projectUrl>
+        <projectUrl>https://github.com/devizer/Universe.NativeLinux.Interop</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/devizer/Universe.NativeLinux.Interop/master/images/Main.Icon.png</iconUrl>
         <icon>images/Main.Icon.png</icon>
         <description>Per-task and per-process statistics from the Linux kernel for .NET Core and Mono for x64, arm, and arm64. The metrics include CPU Usage, counters and delays caused by IO, swap-in, memory reclaim, and memory trashing. Supports a range of taskstat versions available in the wild starting from 7th on RHEL 6. In comparison to the Universe.CpuUsage package it is linux only, but it provides much more details on CPU usage and IO activity by thread/process. Targets everywhere: .Net Standard 1.1+, Net Core 1.0-3.1, Mono 3.12+</description>
