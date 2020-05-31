@@ -40,7 +40,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [[ $(command -v apt-get 2>/dev/null) != "" ]]; then
     apt-get update -qq || apt-get update -qq || apt-get update
     # build-essential
-    echo 12 | apt-get install --no-install-recommends libc6-dev gcc gettext -y -q || echo 12 | apt-get install --no-install-recommends libc6-dev gcc gettext -y -q || echo 12 | apt-get install --no-install-recommends libc6-dev gcc gettext -y
+    apt-get install --no-install-recommends libc6-dev gcc gettext -y -q || apt-get install --no-install-recommends libc6-dev gcc gettext -y -q || apt-get install --no-install-recommends libc6-dev gcc gettext -y
 fi
 
 if [[ $(command -v yum 2>/dev/null) != "" ]]; then
