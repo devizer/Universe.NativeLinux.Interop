@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
@@ -66,6 +67,13 @@ namespace Universe.LinuxTaskStats.Tests
             Console.WriteLine($"TaskStat HAS VALUE: {stat.HasValue}");
             Assert.IsNotNull(stat, "TaskStat is expected. Probably permissions are missing");
             Console.WriteLine($"VER: {stat.Value.Version}");
+        }
+
+        [Test]
+        public void Show_All_Processes()
+        {
+            IEnumerable<LinuxTaskStats?> allProcesses = Process.GetProcesses().Select(x => LinuxTaskStatsReader.GetByProcess(x.Id));
+            Console.WriteLine(allProcesses.ToDebugString());
         }
 
     }

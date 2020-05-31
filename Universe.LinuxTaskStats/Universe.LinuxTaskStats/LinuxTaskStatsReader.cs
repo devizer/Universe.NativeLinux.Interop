@@ -58,7 +58,7 @@ namespace Universe.LinuxTaskStats
             }
 
             var version = *(short*) taskStat;
-            Universe.LinuxTaskStats.LinuxTaskStats ret = new Universe.LinuxTaskStats.LinuxTaskStats()
+            LinuxTaskStats ret = new LinuxTaskStats()
             {
                 Version = version,
                 Nice = taskStat[9],

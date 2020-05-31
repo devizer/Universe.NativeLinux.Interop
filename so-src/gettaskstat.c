@@ -284,7 +284,7 @@ void smart_copy_taskstats(struct taskstats *t, void *to)
 }
 
 // pid and tid are 32 bit integers on both 32-bit and 64-bit OS
-extern int get_taskstat(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 targetTaskStatLength, __s32 debug)
+extern int get_taskstats(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 targetTaskStatLength, __s32 debug)
 {
     if (debug) dbg = 1;
     int c, rc, rep_len, aggr_len, len2;
