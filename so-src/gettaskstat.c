@@ -593,7 +593,7 @@ extern __u64 get_taskstats_version()
 {
     // size that exceeds any version
     struct taskstats *t = malloc(1024);
-    int isOk = get_taskstat(getpid(), 0, (void*)t, 1024, 0);
+    int isOk = get_taskstats(getpid(), 0, (void*)t, 1024, 0);
     int32_t ret = 0;
     if (isOk == 0) {
         ret = t->version;
