@@ -78,9 +78,9 @@ steps:
       cp -f $nupkg_full_name $to/
       
       Say "Store another copy of .snupkg release"
-      7z_dir=$(dirname $nupkg_full_name)
-      7z_file=$(ls -1 $7z_dir/*.7z | head -1)
-      cp -f $7z_file $to/
+      a7z_dir="$(dirname $nupkg_full_name)"
+      a7z_file="$(ls -1 $a7z_dir/*.7z | head -1)"
+      cp -f $a7z_file $to/
       
       popd>/dev/null
     condition: succeededOrFailed()
