@@ -74,6 +74,24 @@ namespace Universe.LinuxTaskStats.Tests
         }
 
         [Test]
+        public void Show_Pairs_For_All_Proce()
+        {
+            List<LinuxTaskStats> pairs = new List<LinuxTaskStats>();
+            var processes = Process.GetProcesses();
+            foreach (var p in processes)
+            {
+                var stat1 = LinuxTaskStatsReader.GetByProcess(p.Id);
+                var stat2 = LinuxTaskStatsReader.GetByThread(p.Id);
+                if (stat1.HasValue) pairs.Add(stat1.Value);
+                if (stat2.HasValue) pairs.Add(stat2.Value);
+            }
+            
+            IEnumerable<LinuxTaskStats?> allProcesses = Process.GetProcesses().Select(x => LinuxTaskStatsReader.GetByProcess(x.Id));
+            Console.WriteLine($"ALL PAIRS. My PID is {Process.GetCurrentProcess().Id}");
+            Console.WriteLine(pairs.ToDebugString());
+        }
+
+        [Test]
         public void Show_All_Processes()
         {
             IEnumerable<LinuxTaskStats?> allProcesses = Process.GetProcesses().Select(x => LinuxTaskStatsReader.GetByProcess(x.Id));
