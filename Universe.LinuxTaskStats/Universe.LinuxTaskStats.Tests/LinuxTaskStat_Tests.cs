@@ -107,16 +107,17 @@ namespace Universe.LinuxTaskStats.Tests
                 File.WriteAllText($"bin/pid-{p.Id}", DumpThreadsByProcess(p.Id), Encoding.ASCII);
             }
             
-            DumpThreadsByProcess(Process.GetCurrentProcess().Id);
         }
 
         private static string DumpThreadsByProcess(int processId)
         {
             StringBuilder ret = new StringBuilder();
 
+            var processName = Process.GetProcessById(processId).ProcessName;
+            ret.AppendLine($"Process #{processId} '{processName}'");
             var tids = GetTasksByPid(processId); 
 
-            var allThreads = tids.Select(LinuxTaskStatsReader.GetByThread);
+            var allThreads = tids.Select(LinuxTaskStatsReader.GetByThread).ToArray();
             ret.AppendLine($"ALL THREADS Of (pid={processId}) PROCESS: {string.Join(", ", tids)}");
             ret.AppendLine(allThreads.ToDebugString() + Environment.NewLine);
             return ret.ToString();
