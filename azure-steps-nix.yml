@@ -5,7 +5,12 @@ steps:
   - bash: |
       sudo rm -f /usr/local/bin/Say || true
       script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
+      try-and-retry sudo apt-get install p7zip-full -y
+      try-and-retry sudo apt-get install p7zip -y
+      Say "7z"
       7z || true
+      Say "7za"
+      7za || true
     displayName: '7z version'
 
   - bash: |
