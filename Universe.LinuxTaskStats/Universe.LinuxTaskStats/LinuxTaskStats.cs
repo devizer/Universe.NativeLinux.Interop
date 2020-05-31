@@ -9,7 +9,7 @@ namespace Universe.LinuxTaskStats
         public int UserId { get; set; }        
         public int GroupId { get; set; }
         public int Pid { get; set; }        
-        public int ParentPId { get; set; }        
+        public int ParentPid { get; set; }        
         
         
         
@@ -59,7 +59,7 @@ namespace Universe.LinuxTaskStats
 
         public override string ToString()
         {
-            return $"{nameof(Version)}: {Version}, {nameof(Nice)}: {Nice}, {nameof(UserId)}: {UserId}, {nameof(GroupId)}: {GroupId}, {nameof(Pid)}: {Pid}, {nameof(ParentPId)}: {ParentPId}, {nameof(BlockIoCount)}: {BlockIoCount}, {nameof(BlockIoDelay)}: {BlockIoDelay}, {nameof(SwapinCount)}: {SwapinCount}, {nameof(SwapinDelay)}: {SwapinDelay}, {nameof(BeginTime32)}: {BeginTime32}, {nameof(ElapsedTime)}: {ElapsedTime}, {nameof(UserTime)}: {UserTime}, {nameof(KernelTime)}: {KernelTime}, {nameof(MinorPageFaults)}: {MinorPageFaults}, {nameof(MajorPageFaults)}: {MajorPageFaults}, {nameof(ReadBytes)}: {ReadBytes}, {nameof(WriteBytes)}: {WriteBytes}, {nameof(ReadSysCalls)}: {ReadSysCalls}, {nameof(WriteSysCalls)}: {WriteSysCalls}, {nameof(ReadBlockBackedBytes)}: {ReadBlockBackedBytes}, {nameof(WriteBlockBackedBytes)}: {WriteBlockBackedBytes}, {nameof(VoluntaryContextSwitches)}: {VoluntaryContextSwitches}, {nameof(InvoluntaryContextSwitches)}: {InvoluntaryContextSwitches}, {nameof(UserTimeSmtScaled)}: {UserTimeSmtScaled}, {nameof(KernelTimeSmtScaled)}: {KernelTimeSmtScaled}, {nameof(RealTimeSmtScaled)}: {RealTimeSmtScaled}, {nameof(MemoryPageReclaimCounter)}: {MemoryPageReclaimCounter}, {nameof(MemoryPageReclaimDelay)}: {MemoryPageReclaimDelay}, {nameof(MemoryPageTrashingCounter)}: {MemoryPageTrashingCounter}, {nameof(MemoryPageTrashingDelay)}: {MemoryPageTrashingDelay}, {nameof(BeginTime64)}: {BeginTime64}";
+            return $"{nameof(Version)}: {Version}, {nameof(Nice)}: {Nice}, {nameof(UserId)}: {UserId}, {nameof(GroupId)}: {GroupId}, {nameof(Pid)}: {Pid}, {nameof(ParentPid)}: {ParentPid}, {nameof(BlockIoCount)}: {BlockIoCount}, {nameof(BlockIoDelay)}: {BlockIoDelay}, {nameof(SwapinCount)}: {SwapinCount}, {nameof(SwapinDelay)}: {SwapinDelay}, {nameof(BeginTime32)}: {BeginTime32}, {nameof(ElapsedTime)}: {ElapsedTime}, {nameof(UserTime)}: {UserTime}, {nameof(KernelTime)}: {KernelTime}, {nameof(MinorPageFaults)}: {MinorPageFaults}, {nameof(MajorPageFaults)}: {MajorPageFaults}, {nameof(ReadBytes)}: {ReadBytes}, {nameof(WriteBytes)}: {WriteBytes}, {nameof(ReadSysCalls)}: {ReadSysCalls}, {nameof(WriteSysCalls)}: {WriteSysCalls}, {nameof(ReadBlockBackedBytes)}: {ReadBlockBackedBytes}, {nameof(WriteBlockBackedBytes)}: {WriteBlockBackedBytes}, {nameof(VoluntaryContextSwitches)}: {VoluntaryContextSwitches}, {nameof(InvoluntaryContextSwitches)}: {InvoluntaryContextSwitches}, {nameof(UserTimeSmtScaled)}: {UserTimeSmtScaled}, {nameof(KernelTimeSmtScaled)}: {KernelTimeSmtScaled}, {nameof(RealTimeSmtScaled)}: {RealTimeSmtScaled}, {nameof(MemoryPageReclaimCounter)}: {MemoryPageReclaimCounter}, {nameof(MemoryPageReclaimDelay)}: {MemoryPageReclaimDelay}, {nameof(MemoryPageTrashingCounter)}: {MemoryPageTrashingCounter}, {nameof(MemoryPageTrashingDelay)}: {MemoryPageTrashingDelay}, {nameof(BeginTime64)}: {BeginTime64}";
         }
     }
 }

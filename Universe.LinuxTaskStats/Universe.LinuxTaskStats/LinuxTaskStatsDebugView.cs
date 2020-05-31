@@ -33,9 +33,10 @@ namespace Universe.LinuxTaskStats
                 for (col = 0; col < properties.Length; col++)
                 {
                     object obj = properties[col].GetValue(list[row], noArgs);
-                    string v = "";
+                    string v = Convert.ToString(obj);
                     if (obj is long? && ((long?) obj).HasValue) v = ((long?) obj).Value.ToString("n0");
                     if (obj is long) v = ((long) obj).ToString("n0");
+                    if (obj is int) v = ((int) obj).ToString("n0");
                     raw[row + 1, col] = v;
                 }
             }
@@ -52,7 +53,7 @@ namespace Universe.LinuxTaskStats
             {
                 for (col = 0; col < properties.Length; col++)
                 {
-                    ret.AppendFormat("{0:-" + width[col] + "}", raw[row, col]);
+                    ret.AppendFormat("{0,-" + width[col] + "}", raw[row, col]);
                 }
 
                 ret.AppendLine();
@@ -60,5 +61,6 @@ namespace Universe.LinuxTaskStats
 
             return ret.ToString();
         }
+        
     }
 }

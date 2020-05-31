@@ -74,7 +74,7 @@ namespace Universe.LinuxTaskStats
                 UserId = *(int*)(taskStat + 120),
                 GroupId = *(int*)(taskStat + 124),
                 Pid = *(int*)(taskStat + 128),
-                ParentPId = *(int*)(taskStat + 132),
+                ParentPid = *(int*)(taskStat + 132),
                 
                 BeginTime32 = *(int*)(taskStat + 136),
                 ElapsedTime = *(long*)(taskStat + 144),
