@@ -44,7 +44,7 @@ steps:
       set -e
       pushd Universe.LinuxTaskStats>/dev/null
       # dotnet test -f netcoreapp3.1 -c Debug
-      bash test-as-root.sh
+      bash -e test-as-root.sh || exit 666
       popd>/dev/null
     displayName: 'dotnet test as root'
 
