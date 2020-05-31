@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
+using Universe.CpuUsage;
+using Universe.CpuUsage.Tests;
 
 namespace Universe.LinuxTaskStats.Tests
 {
@@ -73,8 +77,66 @@ namespace Universe.LinuxTaskStats.Tests
         public void Show_All_Processes()
         {
             IEnumerable<LinuxTaskStats?> allProcesses = Process.GetProcesses().Select(x => LinuxTaskStatsReader.GetByProcess(x.Id));
+            Console.WriteLine($"ALL PROCESSES. My PID is {Process.GetCurrentProcess().Id}");
             Console.WriteLine(allProcesses.ToDebugString());
         }
+        
+        [Test]
+        public void Show_All_Threads_Of_Current_Process()
+        {
+            CpuLoader.Run(1, 3000, true);
+            IoLoader.IO_Reads_Test(CpuUsageScope.Thread);
+            IoLoader.IO_Write_Test(CpuUsageScope.Thread);
+            IoLoader.TearDown_IO_Metrics();
+            
+            var tids = Process.GetCurrentProcess().Threads
+                .OfType<ProcessThread>()
+                .Select(x => x.Id)
+                .OrderBy(x => x)
+                .ToArray();
+            
+            DumpThreadsByProcess(Process.GetCurrentProcess().Id);
+        }
 
+        [Test]
+        public void Show_All_Threads_Of_ALL_Process()
+        {
+            Directory.CreateDirectory("bin");
+            foreach (var p in Process.GetProcesses())
+            {
+                File.WriteAllText($"bin/pid-{p.Id}", DumpThreadsByProcess(p.Id), Encoding.ASCII);
+            }
+            
+            DumpThreadsByProcess(Process.GetCurrentProcess().Id);
+        }
+
+        private static string DumpThreadsByProcess(int processId)
+        {
+            StringBuilder ret = new StringBuilder();
+
+            var tids = GetTasksByPid(processId); 
+
+            var allThreads = tids.Select(LinuxTaskStatsReader.GetByThread);
+            ret.AppendLine($"ALL THREADS Of (pid={processId}) PROCESS: {string.Join(", ", tids)}");
+            ret.AppendLine(allThreads.ToDebugString() + Environment.NewLine);
+            return ret.ToString();
+        }
+
+        static int[] GetTasksByPid(int pid)
+        {
+            try
+            {
+                var dirs = new DirectoryInfo($"/proc/{pid}/task").GetDirectories();
+                return dirs
+                    .Select(x => x.Name)
+                    .Where(x => int.TryParse(x, out var tmp))
+                    .Select(x => Int32.Parse(x))
+                    .ToArray();
+            }
+            catch
+            {
+                return new int[0];
+            }
+        }
     }
 }
