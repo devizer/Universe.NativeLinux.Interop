@@ -26,7 +26,7 @@ for t in $targets; do
         mkdir -p runtimes/$rt/native runtimes/$rt/lib/$t
         cp -f ../../../../runtimes/$rt/*.so runtimes/$rt/native/ 
         cp -f $t/* runtimes/$rt/lib/$t/
-        cp -f ../../../../runtimes/$rt/libNativeLinuxInterop.so net40/libNativeLinuxInterop.so-$rt
+        # cp -f ../../../../runtimes/$rt/libNativeLinuxInterop.so net40/libNativeLinuxInterop.so-$rt
         
         mkdir -p content/net40/native-libs
         cp ../../../../runtimes/$rt/libNativeLinuxInterop.so content/net40/native-libs/libNativeLinuxInterop.so-$rt
