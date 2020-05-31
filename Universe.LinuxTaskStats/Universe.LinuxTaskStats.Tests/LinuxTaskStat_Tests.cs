@@ -74,7 +74,7 @@ namespace Universe.LinuxTaskStats.Tests
         }
 
         [Test]
-        public void Show_Pairs_For_All_Proce()
+        public void Show_Pairs_For_All_Processes()
         {
             List<LinuxTaskStats> pairs = new List<LinuxTaskStats>();
             var processes = Process.GetProcesses();

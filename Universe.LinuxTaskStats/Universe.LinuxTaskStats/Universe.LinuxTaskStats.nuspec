@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <!-- xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd" -->
     <metadata>
         <id>Universe.LinuxTaskStats</id>
@@ -19,10 +19,18 @@
         <dependencies>
             <group targetFramework=".NETCoreApp1.0" />
             <group targetFramework=".NETStandard1.1" />
-            <group targetFramework=".NETCoreApp3.1" />
+            <!--<group targetFramework=".NETCoreApp3.1" />-->
             <group targetFramework=".NETStandard2.0" />
         </dependencies>
+
+        <!-- https://docs.microsoft.com/en-us/nuget/reference/nuspec#example-contentfiles-section -->
+        <contentFiles>
+            <files include="**" buildAction="None" copyToOutput="true" />
+        </contentFiles>
+
     </metadata>
+
+
     <files>
         <file src="../../../../images/Main.Icon.png" target="images" />
         

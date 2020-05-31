@@ -77,9 +77,7 @@ namespace KernelManagementJam.Benchmarks
             }
             catch(Exception ex)
             {
-#if DEBUG
-                Console.WriteLine($"Info: Process [{info}] failed in {sw.ElapsedMilliseconds:n0} milliseconds. {ex.GetType().Name} {ex.Message}");
-#endif
+                Debug.WriteLine($"Info: Process [{info}] failed in {sw.ElapsedMilliseconds:n0} milliseconds. {ex.GetType().Name} {ex.Message}");
                 return -1;
             }
         }
