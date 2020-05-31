@@ -66,7 +66,7 @@ steps:
       # pre prelease
       export NUPKG_PACKAGE_SUFFIX="-pre-${BUILD_BUILDID}"
       source build-nuget.sh
-      cp -f $nupkg_full_path $to/
+      cp -f $nupkg_full_path/*nupkg $to/
       Say "Publishing [$nupkg_full_name]"
       cmd="nuget push $nupkg_full_name $MY_TASKSTAT_NUGET -Timeout 600 -Source https://www.nuget.org/api/v2/package"
       # echo $cmd
@@ -75,7 +75,7 @@ steps:
       # release
       export NUPKG_PACKAGE_SUFFIX=""
       source build-nuget.sh
-      cp -f $nupkg_full_path $to/
+      cp -f $nupkg_full_path/*nupkg $to/
       
       Say "Store another copy of .snupkg release"
       a7z_dir="$(dirname $nupkg_full_name)"

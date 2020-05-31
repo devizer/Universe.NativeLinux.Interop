@@ -104,7 +104,8 @@ build multiarch/debian-debootstrap powerpc-wheezy
 build multiarch/debian-debootstrap armel-wheezy
 build multiarch/debian-debootstrap mips64el-stretch
 
-exit $errors; 
+# exit $errors;
+exit; 
 
 build debian sid linux-x64
 
