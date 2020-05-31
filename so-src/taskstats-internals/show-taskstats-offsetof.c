@@ -19,8 +19,9 @@
 #define PRINT_FIELD(__s__, __f__) { printf("    %26s: %3ld   [%ld]\n", #__f__, (long) offsetof(struct __s__, __f__), (long) sizeof(t.__f__));  }
 #define PRINT_TASKSTATS_FIELF(__f__) { PRINT_FIELD(taskstats, __f__); }
 
-void main()
+int main()
 {
     struct taskstats t;
     PRINT_FIELD(taskstats, $TASKSTATS_FIELD_NAME);
+    return 0;
 }
