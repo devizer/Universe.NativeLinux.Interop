@@ -47,7 +47,7 @@ steps:
       pushd so-src>/dev/null
       bash deploy-to-runtimes.sh
       popd>/dev/null
-    displayName: 'reset versioned runtimes (deploy-to-runtimes.sh) for tests'
+    displayName: 'reset versioned runtimes (deploy-to-runtimes.sh) for tests against actual .so'
 
   - script: |
       set -e
