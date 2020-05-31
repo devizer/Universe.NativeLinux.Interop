@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source /etc/os-release
   if [[ $ID == debian ]] && [[ $VERSION_ID == 8 ]]; then
     rm -f /etc/apt/sources.list.d/backports* || true
@@ -52,7 +53,7 @@ fi
 # set -e
 # BUILD
 gcc -O2 -o show-taskstat-info show-taskstat-info.c;
-ls -la /gettaskstat.c;
+ls -la /get_taskstats.c;
 
-gcc -O2 -shared -fPIC -o libNativeLinuxInterop.so gettaskstat.c;
+gcc -O2 -shared -fPIC -o libNativeLinuxInterop.so get_taskstats.c;
 ls -la libNativeLinuxInterop.so
