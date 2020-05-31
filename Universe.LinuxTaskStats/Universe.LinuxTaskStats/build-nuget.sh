@@ -43,6 +43,7 @@ Say "VERSION to build: [$Version]. Nu-Packaging"
 nuget pack Universe.LinuxTaskStats.nuspec -Version "$Version"
 
 nupkg_full_name="$(pwd)/$(ls *.nupkg | head -1)"
+nupkg_full_path="$(pwd)"
 Say "Full Path: [$nupkg_full_name]"
 
 popd
