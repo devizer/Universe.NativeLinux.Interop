@@ -8,6 +8,11 @@ namespace Universe.LinuxTaskStats
 {
     public static class LinuxTaskStatsDebugView
     {
+        public static string ToDebugString(this IEnumerable<LinuxTaskStats> collection)
+        {
+            return collection.Select(x => (LinuxTaskStats?) x).ToDebugString();
+        }
+        
         public static string ToDebugString(this IEnumerable<LinuxTaskStats?> collection)
         {
             var list = collection
