@@ -273,7 +273,7 @@ __u32 get_ts_size_bv(__u16 version)
     if (version == 9) return 344;
     if (version == 7 || version == 8) return 328;
 
-    // CLARIFY using RHEL 5
+    // CLARIFY using RHEL 5 for version 6?
     return 328;
 }
 
@@ -603,4 +603,3 @@ extern __u64 get_taskstats_version()
     return (__u64)(((__u64)isOk) << 32) | ((__u64) ret);
 }
 
-// #include <stddef.h>
