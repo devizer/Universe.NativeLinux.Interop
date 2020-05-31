@@ -67,7 +67,7 @@ function build() {
   
   if [[ -n "$TF_BUILD" ]]; then
     echo Deleting IMAGE ${image}:${tag}
-    nohup bash -c "docker stop $name; sleep 2; try-and-retry docker rmi -f ${image}:${tag}" &
+    nohup bash -c "docker stop $name; sleep 2; try-and-retry docker rmi -f ${image}:${tag}" >/dev/null &
     # cmd="docker rmi -f ${image}:${tag}"
     # try-and-retry eval "$cmd"
   else
