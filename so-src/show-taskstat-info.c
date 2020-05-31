@@ -35,7 +35,7 @@ void print_taskstats_structure() {
 
 }
 
-void main()
+int main()
 {
     printf("sizeof(int): %ld; sizeof (struct taskstat): %ld; TASKSTATS_VERSION: %ld; TS_COMM_LEN: %ld; \n",
                     sizeof(int),
@@ -43,5 +43,5 @@ void main()
                     TASKSTATS_VERSION,
                     TS_COMM_LEN, sizeof(int));
 
-    // print_taskstats_structure();
+    return 0;
 }
