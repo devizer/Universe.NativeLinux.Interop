@@ -41,7 +41,7 @@ int main()
                     sizeof(int),
                     sizeof (struct taskstats),
                     TASKSTATS_VERSION,
-                    TS_COMM_LEN, sizeof(int));
+                    (long) TS_COMM_LEN, (long) sizeof(int));
 
     return 0;
 }
