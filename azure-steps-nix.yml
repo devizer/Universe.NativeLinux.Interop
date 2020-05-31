@@ -93,6 +93,8 @@ steps:
   - script: |
       Show-System-Stat || true
       df -h -T
+      Say "docker processes"
+      docker ps || true
     condition: succeededOrFailed()
     displayName: 'System Stat'
 

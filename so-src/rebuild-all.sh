@@ -64,17 +64,17 @@ function build() {
   else
     docker cp $name:/usr/include/linux/taskstats.h runtimes/$tag/taskstats.h
   fi
-
-  docker stop $name >/dev/null 2>&1
   
   if [[ -n "$TF_BUILD" ]]; then
     echo Deleting IMAGE ${image}:${tag}
-    sleep 1
+    nohup bash -c "docker stop $name; sleep 2; try-and-retry docker rmi -f ${image}:${tag}" &
     cmd="docker rmi -f ${image}:${tag}"
     try-and-retry eval "$cmd"
+  else
+    docker stop $name >/dev/null 2>&1
   fi
   
-  if [[ $err ]]; then errors=$((errors+1)); fi
+  if [[ "$err" != "0" ]]; then errors=$((errors+1)); fi
 
 }
 
