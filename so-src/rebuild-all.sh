@@ -9,6 +9,7 @@ docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 rm -f runtimes/missed.log
 counter=0
+errors=0;
 
 # set -e
 # nuget build will fail later in case of error
@@ -18,6 +19,7 @@ function build() {
   tag=$2
   nuget_arch=$3
   counter=$((counter+1))
+  err=0;
 
   name="temp-builder-${tag}"
   echo ""
@@ -34,7 +36,7 @@ function build() {
 
   docker exec -t $name bash in-container.sh
   mkdir -p runtimes/$tag;
-  docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so
+  docker cp $name:/libNativeLinuxInterop.so runtimes/$tag/libNativeLinuxInterop.so || err=1
   lddVer="$(docker exec -t $name ldd --version | head -1)"
   printf "\n${image}:${tag}\n"
   toilet -f term -F border "$lddVer" | tee runtimes/$tag/versions.log
@@ -45,7 +47,7 @@ function build() {
   docker exec -t $name sh -c "$cmd" | tee -a runtimes/$tag/versions.log
 
   # show-taskstats-structure.sh
-  docker exec -t $name bash show-taskstats-structure.sh | tee -a runtimes/$tag/versions.log || exit 777
+  docker exec -t $name bash show-taskstats-structure.sh | tee -a runtimes/$tag/versions.log || err=1
 
 
   
@@ -71,6 +73,8 @@ function build() {
     cmd="docker rmi -f ${image}:${tag}"
     try-and-retry eval "$cmd"
   fi
+  
+  if [[ $err ]]; then errors=$((errors+1)); fi
 
 }
 
@@ -100,7 +104,7 @@ build multiarch/debian-debootstrap powerpc-wheezy
 build multiarch/debian-debootstrap armel-wheezy
 build multiarch/debian-debootstrap mips64el-stretch
 
-exit; 
+exit $errors; 
 
 build debian sid linux-x64
 

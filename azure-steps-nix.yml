@@ -38,7 +38,7 @@ steps:
 
   - script: |
       pushd so-src>/dev/null
-      bash rebuild-all.sh || exit 666
+      bash rebuild-all.sh || exit 888
       popd>/dev/null
     displayName: '[so] rebuild-all.sh: libNativeLinuxInterop.so'
 
