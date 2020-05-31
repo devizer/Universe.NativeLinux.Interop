@@ -12,7 +12,8 @@ cp -f Universe.LinuxTaskStats.nuspec bin/Release
 
 Say "VERSION to build: [$Version]. Removing auto packaged package"
 pushd bin/Release
-7z a nupkgs-prev-packed.7z "*nupkg" -sdel || true
+7z a nupkgs-prev-packed.7z "*nupkg" || true
+rm -f *nupkg
 
 
 Say "VERSION to build: [$Version]. Align FileSystem"
