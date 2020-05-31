@@ -4,10 +4,10 @@ variables:
 
 jobs:
 
-  - job: ALL_Runtimes_On_Bionic
+  - job: LinuxTaskStats_On_Bionic
     variables:
       OS: Linux
-    timeoutInMinutes: 599
+    timeoutInMinutes: 120
     cancelTimeoutInMinutes: 10
     pool:
       image: 'ubuntu-18.04'
