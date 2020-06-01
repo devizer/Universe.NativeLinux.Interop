@@ -4,6 +4,8 @@
 # https://docs.microsoft.com/en-us/dotnet/core/tools/csproj#includeassets-excludeassets-and-privateassets
 
 # https://docs.microsoft.com/en-us/visualstudio/msbuild/msbuild-items?view=vs-2019
+# в андроид
+https://android.googlesource.com/platform/system/extras/+/master/iotop/taskstats.cpp#126
 set -e
 
 lib=libNativeLinuxInterop.so
