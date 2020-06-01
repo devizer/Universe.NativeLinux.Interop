@@ -8,7 +8,7 @@ namespace Universe.LinuxTaskStats
     {
         public static TaskStatsErrorAction ErrorAction { get; } = TaskStatsErrorAction.ReturnNull;
         
-        private const int TASKSTAT_ENOUGH_SIZE = 1024;
+        private const int TASKSTATS_ENOUGH_SIZE = 1024;
         private const string LibName = "libNativeLinuxInterop";
 
         [DllImport(LibName)]
@@ -36,15 +36,15 @@ namespace Universe.LinuxTaskStats
         internal static unsafe Lazy<bool> _IsGetTaskStatByProcessSupported = new Lazy<bool>(() =>
         {
             if (!_IsGetPidSupported.Value) return false;
-            byte* taskStat = stackalloc byte[TASKSTAT_ENOUGH_SIZE];
-            return IsSuccess("get_taskstat(pid)", () => get_taskstats(get_pid(), 0, (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
+            byte* taskStat = stackalloc byte[TASKSTATS_ENOUGH_SIZE];
+            return IsSuccess("get_taskstat(pid)", () => get_taskstats(get_pid(), 0, (IntPtr) taskStat, TASKSTATS_ENOUGH_SIZE, 0)); 
         });
 
         internal static unsafe Lazy<bool> _IsGetTaskStatByThreadSupported = new Lazy<bool>(() =>
         {
             if (!_IsGetTidSupported.Value) return false;
-            byte* taskStat = stackalloc byte[TASKSTAT_ENOUGH_SIZE];
-            return IsSuccess("get_taskstat(tid)", () => get_taskstats(0, get_tid(), (IntPtr) taskStat, TASKSTAT_ENOUGH_SIZE, 0)); 
+            byte* taskStat = stackalloc byte[TASKSTATS_ENOUGH_SIZE];
+            return IsSuccess("get_taskstat(tid)", () => get_taskstats(0, get_tid(), (IntPtr) taskStat, TASKSTATS_ENOUGH_SIZE, 0)); 
         });
 
         private static bool IsSuccess(string caption, Action toTry)
