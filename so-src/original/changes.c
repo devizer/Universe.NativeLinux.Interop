@@ -26,6 +26,7 @@
 #include <linux/genetlink.h>
 #include <linux/taskstats.h>
 #include <linux/cgroupstats.h>
+#include <syscall.h>
 
 /*
  * Generic macros for dealing with netlink sockets. Might be duplicated
@@ -46,22 +47,22 @@
 int done;
 int rcvbufsz;
 char name[100];
-int dbg;
+int dbg = 0;
 int print_delays;
 int print_io_accounting;
 int print_task_context_switch_counts;
 __u64 stime, utime;
 
 #define PRINTF(fmt, arg...) {			\
-	    if (dbg) {				\
+	    if (dbg || debug) {				\
 		printf(fmt, ##arg);		\
 	    }					\
 	}
 
 /* Maximum size of response requested or message sent */
-#define MAX_MSG_SIZE	1024
+#define MAX_MSG_SIZE	4096
 /* Maximum number of cpus expected to be specified in a cpumask */
-#define MAX_CPUS	32
+#define MAX_CPUS	256
 
 struct msgtemplate {
     struct nlmsghdr n;
@@ -69,18 +70,8 @@ struct msgtemplate {
     char buf[MAX_MSG_SIZE];
 };
 
-char cpumask[100+6*MAX_CPUS];
 
-static void usage(void)
-{
-    fprintf(stderr, "getdelays [-dilv] [-w logfile] [-r bufsize] "
-                    "[-m cpumask] [-t tgid] [-p pid]\n");
-    fprintf(stderr, "  -d: print delayacct stats\n");
-    fprintf(stderr, "  -i: print IO accounting (works only with -p)\n");
-    fprintf(stderr, "  -l: listen forever\n");
-    fprintf(stderr, "  -v: debug on\n");
-    fprintf(stderr, "  -C: container path\n");
-}
+char cpumask[100+6*MAX_CPUS];
 
 /*
  * Create a raw netlink socket and bind
@@ -190,62 +181,39 @@ static int get_family_id(int sd)
     return id;
 }
 
-static void print_delayacct(struct taskstats *t)
-{
-    printf("\n\nCPU   %15s%15s%15s%15s\n"
-           "      %15llu%15llu%15llu%15llu\n"
-           "IO    %15s%15s\n"
-           "      %15llu%15llu\n"
-           "SWAP  %15s%15s\n"
-           "      %15llu%15llu\n"
-           "RECLAIM  %12s%15s\n"
-           "      %15llu%15llu\n",
-           "count", "real total", "virtual total", "delay total",
-           (unsigned long long)t->cpu_count,
-           (unsigned long long)t->cpu_run_real_total,
-           (unsigned long long)t->cpu_run_virtual_total,
-           (unsigned long long)t->cpu_delay_total,
-           "count", "delay total",
-           (unsigned long long)t->blkio_count,
-           (unsigned long long)t->blkio_delay_total,
-           "count", "delay total",
-           (unsigned long long)t->swapin_count,
-           (unsigned long long)t->swapin_delay_total,
-           "count", "delay total",
-           (unsigned long long)t->freepages_count,
-           (unsigned long long)t->freepages_delay_total);
+
+extern __u32 get_tid() {
+    pid_t tid = syscall(__NR_gettid);
+    return tid;
 }
 
-static void task_context_switch_counts(struct taskstats *t)
-{
-    printf("\n\nTask   %15s%15s\n"
-           "       %15llu%15llu\n",
-           "voluntary", "nonvoluntary",
-           (unsigned long long)t->nvcsw, (unsigned long long)t->nivcsw);
+extern __u32 get_pid() {
+    pid_t pid = getpid();
+    return pid;
 }
 
-static void print_cgroupstats(struct cgroupstats *c)
+// Get taskstats Size By Version
+__u32 get_ts_size_bv(__u16 version)
 {
-    printf("sleeping %llu, blocked %llu, running %llu, stopped %llu, "
-           "uninterruptible %llu\n", (unsigned long long)c->nr_sleeping,
-           (unsigned long long)c->nr_io_wait,
-           (unsigned long long)c->nr_running,
-           (unsigned long long)c->nr_stopped,
-           (unsigned long long)c->nr_uninterruptible);
+    if (version > 10) return 352; // future version size should not ne less then prev
+    if (version == 10) return 352;
+    if (version == 9) return 344;
+    if (version == 7 || version == 8) return 328;
+
+    // CLARIFY using RHEL 5 for version 6?
+    return 328;
 }
 
 
-static void print_ioacct(struct taskstats *t)
+void smart_copy_taskstats(struct taskstats *t, void *to)
 {
-    printf("%s: read=%llu, write=%llu, cancelled_write=%llu\n",
-           t->ac_comm,
-           (unsigned long long)t->read_bytes,
-           (unsigned long long)t->write_bytes,
-           (unsigned long long)t->cancelled_write_bytes);
+    memcpy(to, t, get_ts_size_bv(t->version));
 }
 
-int main(int argc, char *argv[])
+// pid and tid are 32 bit integers on both 32-bit and 64-bit OS
+extern int get_taskstats(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32 targetTaskStatLength, __s32 debug)
 {
+    if (debug) dbg = 1;
     int c, rc, rep_len, aggr_len, len2;
     int cmd_type = TASKSTATS_CMD_ATTR_UNSPEC;
     __u16 id;
@@ -268,134 +236,48 @@ int main(int argc, char *argv[])
     int cfd = 0;
 
     struct msgtemplate msg;
+    int returnError = 0;
 
-    while (1) {
-        c = getopt(argc, argv, "qdiw:r:m:t:p:vlC:");
-        if (c < 0)
-            break;
 
-        switch (c) {
-            case 'd':
-                printf("print delayacct stats ON\n");
-                print_delays = 1;
-                break;
-            case 'i':
-                printf("printing IO accounting\n");
-                print_io_accounting = 1;
-                break;
-            case 'q':
-                printf("printing task/process context switch rates\n");
-                print_task_context_switch_counts = 1;
-                break;
-            case 'C':
-                containerset = 1;
-                strncpy(containerpath, optarg, strlen(optarg) + 1);
-                break;
-            case 'w':
-                logfile = strdup(optarg);
-                printf("write to file %s\n", logfile);
-                write_file = 1;
-                break;
-            case 'r':
-                rcvbufsz = atoi(optarg);
-                printf("receive buf size %d\n", rcvbufsz);
-                if (rcvbufsz < 0)
-                    err(1, "Invalid rcv buf size\n");
-                break;
-            case 'm':
-                strncpy(cpumask, optarg, sizeof(cpumask));
-                maskset = 1;
-                printf("cpumask %s maskset %d\n", cpumask, maskset);
-                break;
-            case 't':
-                tid = atoi(optarg);
-                if (!tid)
-                    err(1, "Invalid tgid\n");
-                cmd_type = TASKSTATS_CMD_ATTR_TGID;
-                break;
-            case 'p':
-                tid = atoi(optarg);
-                if (!tid)
-                    err(1, "Invalid pid\n");
-                cmd_type = TASKSTATS_CMD_ATTR_PID;
-                break;
-            case 'v':
-                printf("debug on\n");
-                dbg = 1;
-                break;
-            case 'l':
-                printf("listen forever\n");
-                loop = 1;
-                break;
-            default:
-                usage();
-                exit(-1);
-        }
+    if (argPid) {
+        cmd_type = TASKSTATS_CMD_ATTR_PID;
+        tid = argPid;
+    }
+    else if (argTid) {
+        cmd_type = TASKSTATS_CMD_ATTR_TGID;
+        tid = argTid;
+    }
+    else {
+        returnError = 1; goto done;
     }
 
-    if (write_file) {
-        fd = open(logfile, O_WRONLY | O_CREAT | O_TRUNC,
-                  S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-        if (fd == -1) {
-            perror("Cannot open output file\n");
-            exit(1);
-        }
+    if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0) {
+        // TODO: return error
+        // err(1, "Error creating Netlink socket\n");
+        if (debug) fprintf(stderr, "Error creating Netlink Socket 'create_nl_socket(NETLINK_GENERIC)'\n");
+        returnError = 2; goto done;
     }
 
-    if ((nl_sd = create_nl_socket(NETLINK_GENERIC)) < 0)
-        err(1, "error creating Netlink socket\n");
 
 
     mypid = getpid();
     id = get_family_id(nl_sd);
     if (!id) {
-        fprintf(stderr, "Error getting family id, errno %d\n", errno);
+        if (debug) fprintf(stderr, "Error getting family id 'get_family_id(nl_sd)', errno %d\n", errno);
+        returnError = 3;
         goto err;
     }
     PRINTF("family id %d\n", id);
-
-    if (maskset) {
-        rc = send_cmd(nl_sd, id, mypid, TASKSTATS_CMD_GET,
-                      TASKSTATS_CMD_ATTR_REGISTER_CPUMASK,
-                      &cpumask, strlen(cpumask) + 1);
-        PRINTF("Sent register cpumask, retval %d\n", rc);
-        if (rc < 0) {
-            fprintf(stderr, "error sending register cpumask\n");
-            goto err;
-        }
-    }
-
-    if (tid && containerset) {
-        fprintf(stderr, "Select either -t or -C, not both\n");
-        goto err;
-    }
 
     if (tid) {
         rc = send_cmd(nl_sd, id, mypid, TASKSTATS_CMD_GET,
                       cmd_type, &tid, sizeof(__u32));
         PRINTF("Sent pid/tgid, retval %d\n", rc);
         if (rc < 0) {
-            fprintf(stderr, "error sending tid/tgid cmd\n");
+            if (debug) fprintf(stderr, "Error sending tid/tgid cmd 'send_cmd(...)'\n");
+            returnError = 4;
             goto done;
         }
-    }
-
-    if (containerset) {
-        cfd = open(containerpath, O_RDONLY);
-        if (cfd < 0) {
-            perror("error opening container file");
-            goto err;
-        }
-        rc = send_cmd(nl_sd, id, mypid, CGROUPSTATS_CMD_GET,
-                      CGROUPSTATS_CMD_ATTR_FD, &cfd, sizeof(__u32));
-        if (rc < 0) {
-            perror("error sending cgroupstats command");
-            goto err;
-        }
-    }
-    if (!maskset && !tid && !containerset) {
-        usage();
-        goto err;
     }
 
     do {
@@ -405,15 +287,14 @@ int main(int argc, char *argv[])
         PRINTF("received %d bytes\n", rep_len);
 
         if (rep_len < 0) {
-            fprintf(stderr, "nonfatal reply error: errno %d\n",
-                    errno);
+            if (debug) fprintf(stderr, "nonfatal reply error: errno %d, still waiting for reply\n", errno);
             continue;
         }
         if (msg.n.nlmsg_type == NLMSG_ERROR ||
             !NLMSG_OK((&msg.n), rep_len)) {
             struct nlmsgerr *err = NLMSG_DATA(&msg);
-            fprintf(stderr, "fatal reply error,  errno %d\n",
-                    err->error);
+            if (debug) fprintf(stderr, "Fatal Reply Error. NLMSG_ERROR Recieved. errno %d\n", err->error);
+            returnError=8;
             goto done;
         }
 
@@ -441,34 +322,26 @@ int main(int argc, char *argv[])
                         switch (na->nla_type) {
                             case TASKSTATS_TYPE_PID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays)
+                                if (print_delays && debug)
                                     printf("PID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_TGID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays)
+                                if (print_delays && debug)
                                     printf("TGID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_STATS:
                                 count++;
-                                if (print_delays)
-                                    print_delayacct((struct taskstats *) NLA_DATA(na));
-                                if (print_io_accounting)
-                                    print_ioacct((struct taskstats *) NLA_DATA(na));
-                                if (print_task_context_switch_counts)
-                                    task_context_switch_counts((struct taskstats *) NLA_DATA(na));
-                                if (fd) {
-                                    if (write(fd, NLA_DATA(na), na->nla_len) < 0) {
-                                        err(1,"write error\n");
-                                    }
-                                }
+                                done = 1;
+                                struct taskstats *taskStat = (struct taskstats *) NLA_DATA(na);
+                                smart_copy_taskstats(taskStat, targetTaskStat);
                                 if (!loop)
                                     goto done;
                                 break;
                             default:
-                                fprintf(stderr, "Unknown nested"
-                                                " nla_type %d\n",
-                                        na->nla_type);
+                                if (debug) fprintf(stderr, "Warning! Unknown nested"
+                                                           " nla_type %d\n",
+                                                   na->nla_type);
                                 break;
                         }
                         len2 += NLA_ALIGN(na->nla_len);
@@ -477,7 +350,7 @@ int main(int argc, char *argv[])
                     break;
 
                 case CGROUPSTATS_TYPE_CGROUP_STATS:
-                    print_cgroupstats(NLA_DATA(na));
+                    // SKIP: print_cgroupstats(NLA_DATA(na));
                     break;
                 default:
                     fprintf(stderr, "Unknown nla_type %d\n",
@@ -487,20 +360,26 @@ int main(int argc, char *argv[])
             na = (struct nlattr *) (GENLMSG_DATA(&msg) + len);
         }
     } while (loop);
+
     done:
-    if (maskset) {
-        rc = send_cmd(nl_sd, id, mypid, TASKSTATS_CMD_GET,
-                      TASKSTATS_CMD_ATTR_DEREGISTER_CPUMASK,
-                      &cpumask, strlen(cpumask) + 1);
-        printf("Sent deregister mask, retval %d\n", rc);
-        if (rc < 0)
-            err(rc, "error sending deregister cpumask\n");
-    }
     err:
     close(nl_sd);
-    if (fd)
-        close(fd);
-    if (cfd)
-        close(cfd);
-    return 0;
+
+    return returnError;
 }
+
+
+extern __u64 get_taskstats_version()
+{
+    // size that exceeds any version
+    struct taskstats *t = malloc(1024);
+    int isOk = get_taskstats(getpid(), 0, (void*)t, 1024, 0);
+    int32_t ret = 0;
+    if (isOk == 0) {
+        ret = t->version;
+    }
+
+    free(t);
+    return (__u64)(((__u64)isOk) << 32) | ((__u64) ret);
+}
+
