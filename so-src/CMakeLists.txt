@@ -1,6 +1,14 @@
-cmake_minimum_required(VERSION 3.5)
-project(NativeLinuxInterop C)
+cmake_minimum_required(VERSION 3.16)
+project(libTaskStats C)
+# set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 
-add_library(so_src SHARED get_taskstats.c)
+add_library(libTaskStats
+        get_taskstats.c
+        show-taskstat-info.c
+        orgiginal/delays.c
+)
+# target_link_libraries(libTaskStats)
+
+
