@@ -7,5 +7,5 @@ dotnet publish -c Debug -f netcoreapp3.1 -o $work
 popd
 
 pushd $work
-sudo dotnet test Universe.LinuxTaskStats.Tests.dll -v d
+sudo dotnet test Universe.LinuxTaskStats.Tests.dll -v d 2>&1 | tee full-test-log.tmp
 popd

@@ -48,9 +48,9 @@ int done;
 int rcvbufsz;
 char name[100];
 int dbg = 0;
-int print_delays;
-int print_io_accounting;
-int print_task_context_switch_counts;
+int print_delays = 1;
+int print_io_accounting = 1;
+int print_task_context_switch_counts = 1;
 __u64 stime, utime;
 
 #define PRINTF(fmt, arg...) {			\

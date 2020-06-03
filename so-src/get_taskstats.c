@@ -48,9 +48,9 @@ int done;
 int rcvbufsz;
 char name[100];
 int dbg = 0;
-int print_delays;
-int print_io_accounting;
-int print_task_context_switch_counts;
+int print_delays = 1;
+int print_io_accounting = 1;
+int print_task_context_switch_counts = 1;
 __u64 stime, utime;
 
 #define PRINTF(fmt, arg...) {			\
@@ -513,32 +513,19 @@ extern int get_taskstats(__s32 argPid, __s32 argTid, void *targetTaskStat, __s32
                         switch (na->nla_type) {
                             case TASKSTATS_TYPE_PID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays && debug)
-                                    printf("PID\t%d\n", rtid);
+                                if (debug)
+                                    printf("Arrived PID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_TGID:
                                 rtid = *(int *) NLA_DATA(na);
-                                if (print_delays && debug)
-                                    printf("TGID\t%d\n", rtid);
+                                if (debug)
+                                    printf("Arrived TGID\t%d\n", rtid);
                                 break;
                             case TASKSTATS_TYPE_STATS:
                                 count++;
                                 done = 1;
                                 struct taskstats *taskStat = (struct taskstats *) NLA_DATA(na);
                                 smart_copy_taskstats(taskStat, targetTaskStat);
-/*
-                                if (print_delays)
-                                    print_delayacct((struct taskstats *) NLA_DATA(na));
-                                if (print_io_accounting)
-                                    print_ioacct((struct taskstats *) NLA_DATA(na));
-                                if (print_task_context_switch_counts)
-                                    task_context_switch_counts((struct taskstats *) NLA_DATA(na));
-*/
-                                if (fd) {
-                                    if (write(fd, NLA_DATA(na), na->nla_len) < 0) {
-                                        err(1,"write error\n");
-                                    }
-                                }
                                 if (!loop)
                                     goto done;
                                 break;

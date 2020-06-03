@@ -1,2 +1,11 @@
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.7-rc7&id=4054ab64e29bb05b3dfe758fff3c38a74ba753bb
 
+my changes
+https://github.com/devizer/Universe.NativeLinux.Interop/commit/c79bae519a3595660029292caa0b9767379998c9?diff=split
+
+my changes all
+https://github.com/devizer/Universe.NativeLinux.Interop/compare/6b40d552...master
+
+фигня какая то для Go
+https://godoc.org/github.com/shiaho/netlink_tool/netlink#pkg-index
+
