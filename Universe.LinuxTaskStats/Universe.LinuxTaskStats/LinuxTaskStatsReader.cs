@@ -10,6 +10,11 @@ namespace Universe.LinuxTaskStats
         public static bool IsGetTaskStatByProcessSupported => TaskStatInterop._IsGetTaskStatByProcessSupported.Value;
         public static bool IsGetTaskStatByThreadSupported => TaskStatInterop._IsGetTaskStatByThreadSupported.Value;
 
+        public static int GetTid() => TaskStatInterop.get_tid();
+        public static int GetPid() => TaskStatInterop.get_pid();
+        
+        public static int GeTaskStatsVersion() => (int) TaskStatInterop.get_taskstats_version();
+
         public int? GetTaskStatVersion()
         {
             long verRaw = TaskStatInterop.get_taskstats_version();

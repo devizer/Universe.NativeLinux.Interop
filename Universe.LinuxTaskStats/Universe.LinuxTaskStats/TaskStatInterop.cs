@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Universe.LinuxTaskStats
 {
-    public static class TaskStatInterop
+    internal static class TaskStatInterop
     {
         public static TaskStatsErrorAction ErrorAction { get; } = TaskStatsErrorAction.ReturnNull;
         
