@@ -37,6 +37,11 @@ steps:
     displayName: '[so] re-build-local.sh'
 
   - script: |
+      try-and-retry sudo apt-get update -q
+      smart-apt-install -q qemu-user-static toilet
+  displayName: 'preinstall qemu-user-static and toilet' 
+
+  - script: |
       pushd so-src>/dev/null
       bash rebuild-all.sh || exit 888
       popd>/dev/null
