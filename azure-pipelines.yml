@@ -4,7 +4,7 @@ variables:
 
 jobs:
 
-  - job: LinuxTaskStats_On_Bionic
+  - job: LinuxTaskStats_On_Focal
     variables:
       OS: Linux
     timeoutInMinutes: 120
