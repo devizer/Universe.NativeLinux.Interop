@@ -36,6 +36,8 @@ for t in $targets; do
         cp ../../content/* content/net40/native-libs/
     done
 done
+cp -r runtimes/linux-x64 runtimes/any
+rm -rf runtimes/any/native
 find runtimes -name '*.deps.json' | xargs rm
 
 
