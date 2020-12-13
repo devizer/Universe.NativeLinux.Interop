@@ -4,13 +4,13 @@ variables:
 
 jobs:
 
-  - job: LinuxTaskStats_On_Bionic
+  - job: LinuxTaskStats_On_Focal
     variables:
       OS: Linux
     timeoutInMinutes: 120
     cancelTimeoutInMinutes: 10
     pool:
-      image: 'ubuntu-18.04'
+      vmImage: 'ubuntu-20.04'
     steps:
       - template: azure-steps-nix.yml
 

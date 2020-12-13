@@ -2,8 +2,10 @@
 script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash
 
 export DEBIAN_FRONTEND=noninteractive
-try-and-retry sudo apt-get update
-smart-apt-install qemu-user-static toilet -y
+if [[ "$(command -v qemu-arm-static)" == "" || "$(command -v toilet)" == "" ]]; then 
+  try-and-retry sudo apt-get update
+  smart-apt-install -qq qemu-user-static toilet 
+fi
 try-and-retry docker pull multiarch/qemu-user-static:register
 docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
