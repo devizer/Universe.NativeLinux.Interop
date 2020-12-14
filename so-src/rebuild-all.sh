@@ -97,7 +97,7 @@ deploy_to_runtimes linux-mips64el mips64el-stretch
 
 # for release
 build multiarch/ubuntu-debootstrap amd64-precise 
-build centos 6 linux-rhel.6
+build centos 6.10 linux-rhel.6
 build multiarch/ubuntu-debootstrap armhf-precise 
 build multiarch/ubuntu-debootstrap i386-precise 
 build multiarch/ubuntu-debootstrap arm64-trusty

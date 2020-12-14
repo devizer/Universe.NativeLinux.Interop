@@ -18,7 +18,7 @@ rm -f *.nupkg
 
 Say "VERSION to build: [$Version]. Align FileSystem"
 # runtime rhel.6-x64 is not supported by centos:6 docker image 
-runtimes="linux-arm  linux-arm64  linux-armel  linux-mips64el  linux-powerpc  linux-ppc64el  linux-x64  linux-x86  "
+runtimes="linux-arm  linux-arm64  linux-armel  linux-mips64el  linux-powerpc  linux-ppc64el  linux-x64  linux-x86  rhel.6-x64"
 targets="netcoreapp1.0  netcoreapp3.1  netstandard1.1  netstandard2.0"
 targets="netcoreapp1.0  netstandard1.1  netstandard2.0" # netcoreapp3.1 is redundant
 
