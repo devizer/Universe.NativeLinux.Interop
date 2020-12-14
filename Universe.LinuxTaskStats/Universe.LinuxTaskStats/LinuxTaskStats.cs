@@ -11,8 +11,6 @@ namespace Universe.LinuxTaskStats
         public int Pid { get; set; }        
         public int ParentPid { get; set; }        
         
-        
-        
         public long BlockIoCount { get; set; }
         public long BlockIoDelay { get; set; }
         
